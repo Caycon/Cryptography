@@ -30,3 +30,21 @@
     - Mã hóa bất đối xứng: Sử dụng hai khóa riêng biệt, một khóa để mã hóa và một khóa khác để giải mã thông tin.
     - Mã hóa dựa trên hàm băm: Sử dụng hàm băm để tạo một bản tóm tắt của thông tin, sau đó được mã hóa bằng một khóa.
 - Encode/decode là một lĩnh vực quan trọng trong mật mã học. Nó được sử dụng trong nhiều ứng dụng khác nhau để bảo vệ thông tin khỏi những kẻ tấn công.
+# Encrypt/Decrypt
+- `Encrypt` là quá trình chuyển đổi thông tin từ dạng có thể đọc được thành dạng không thể đọc được, thường được gọi là bản mã. Quá trình mã hóa sử dụng một khóa, là một chuỗi ký tự hoặc số được sử dụng để mã hóa và giải mã thông tin. 
+- `Decrypt` là quá trình chuyển đổi thông tin từ dạng không thể đọc được, thường được gọi là bản mã, trở lại dạng ban đầu, có thể đọc được. Quá trình giải mã cũng sử dụng khóa giống như quá trình mã hóa. 
+![image](https://hackmd.io/_uploads/r1xq8Ua_6.png)
+- Các đặc điểm của mã hóa/giải mã bao gồm:
+    - Tính bảo mật: Mã hóa được sử dụng để bảo vệ thông tin khỏi những kẻ tấn công. Bằng cách mã hóa thông tin, chỉ những người có khóa mới có thể giải mã và đọc được thông tin đó.
+    - Tính toàn vẹn: Mã hóa cũng có thể được sử dụng để xác minh tính toàn vẹn của thông tin. Nếu thông tin đã được mã hóa và giải mã thành công, thì nó có thể được đảm bảo là không bị thay đổi trong quá trình truyền tải.
+    - Tính xác thực: Mã hóa cũng có thể được sử dụng để xác minh danh tính của người gửi thông tin. Ví dụ, chữ ký điện tử sử dụng mã hóa/giải mã để xác minh rằng thông tin đã được gửi bởi người cụ thể mà nó tuyên bố được gửi bởi.
+- Điểm khác biệt giữa `Encode/Decode` và `Encrypt/Decrypt`:
+![image](https://hackmd.io/_uploads/B1-euUada.png)
+    - Encrypt/Decrypt:
+        - Mã hóa mật khẩu trước khi lưu trữ trong cơ sở dữ liệu.
+        - Bảo vệ thông tin thẻ tín dụng trong quá trình giao dịch trực tuyến.
+        - Mã hóa email để đảm bảo tính bảo mật.
+    - Encode/Decode:
+        - Nén tệp để giảm kích thước và tiết kiệm dung lượng lưu trữ (ví dụ: nén ZIP).
+        - Chuyển đổi hình ảnh sang định dạng JPEG hoặc PNG để hiển thị trên web.
+        - Chuyển đổi văn bản sang mã ASCII để truyền qua mạng.
