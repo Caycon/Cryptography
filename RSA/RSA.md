@@ -99,3 +99,20 @@ nhiều\ cặp\ (c, n)\ tương\ ứng.
 \end{cases}$$
 - Loại bài toán này khá giống với `small public`, thế nên dựa vào cơ sở của `small public` và định lý `Thặng dư Trung Hoa` để giải quyết.
 - Tham khảo thêm [CopperSmith](https://en.wikipedia.org/wiki/Coppersmith%27s_attack)
+### Blinding Attack
+- Kỹ thuật `blinding` là một phương pháp được sử dụng trong hệ thống mật mã RSA để bảo vệ chống lại các cuộc tấn công dựa trên thông tin phản hồi từ quá trình giải mã. Mục tiêu chính của kỹ thuật này là ngăn chặn các tấn công kiểu side-channel attack, trong đó kẻ tấn công có thể sử dụng thông tin như thời gian thực hiện, công suất tiêu thụ điện năng, hoặc các dạng thông tin phản hồi khác để suy luận ra khóa bí mật.
+- Trong hệ thống RSA, một số loại tấn công side-channel có thể tận dụng thông tin như thời gian giải mã, để suy luận ra khóa bí mật. Kỹ thuật blinding giúp ngăn chặn các loại tấn công này bằng cách thêm vào một yếu tố ngẫu nhiên vào quá trình giải mã. Yếu tố này được gọi là `blinding factor`.
+- Quá trình giải mã RSA thông thường như sau:
+    - Mã hóa: $C \equiv M^e mod(N)$
+    - Giải mã: $M \equiv C^d mod(N)$
+- Khi sử dụng kỹ thuật blinding, quá trình giải mã được thay đổi như sau:
+    - Tạo một số ngẫu nhiên `r` và tính $r^e mod(N)$, được gọi là  `blinding factor`$(r< N, d(r, N)= 1)$.
+    - Nhân $C$ với blinding factor: $C' \equiv Cr^e mod(N)$
+    - Giải mã $C'$ thay vì $C$: $M' \equiv C'^d mod(N)$
+    - Nhân $M'$ với $r^{-1} mod(N)$ để loại bỏ blinding factor: $M \equiv M'r^{-1} mod(N)$ 
+- Một số phương pháp có thể tấn công được kỹ thuật 'Blinding' nếu nó không được triển khai cẩn thận:
+    - `Implementation Fault Attacks`: Nếu quá trình triển khai blinding không được thực hiện đúng cách, kẻ tấn công có thể tận dụng những lỗ hổng này để lấy thông tin về khóa bí mật. Ví dụ, nếu có lỗi trong việc xác định và thực hiện blinding factor, thông tin có thể rò rỉ qua các kênh không mong muốn.
+    - `Instruction Timing Attacks`: Kẻ tấn công có thể theo dõi thời gian thực hiện các lệnh trong quá trình giải mã. Nếu có sự biến đổi đáng kể trong thời gian thực hiện dựa trên giá trị của blinding factor, họ có thể sử dụng thông tin này để suy luận ra khóa bí mật.
+    - `Power Analysis Attacks`: Kẻ tấn công có thể theo dõi mức tiêu thụ công suất của hệ thống trong quá trình giải mã. Nếu blinding factor không được thực hiện chính xác, các biến động trong công suất có thể tiết lộ thông tin về khóa bí mật.
+    - `State-Based Attacks`: Kẻ tấn công có thể cố gắng suy luận giá trị của blinding factor hoặc các thông tin khác từ trạng thái nội tại của hệ thống. Nếu họ có thể đoán được giá trị của blinding factor, tấn công có thể trở nên hiệu quả hơn.
+    - `Fault injection`: Kỹ thuật này bao gồm việc chèn lỗi (fault injection) vào hệ thống để làm suy giảm hiệu suất của blinding. Nếu blinding không hoạt động chính xác, thông tin về khóa bí mật có thể trở nên dễ thu được.
