@@ -79,3 +79,23 @@
 ### e small
 - Với bài toán có số e đủ nhỏ ta có thể tính từ biểu thức $c \equiv m^e (mod\ n)$. Do n là số lớn hơn rất nhiều so với c, e nên $c= m^e + n*0 <=> c= m^e$.
 - Bài toán này có thể có biến đổi đi 1 chút và cho $c= m^e+ n*k \text{ Với k} \in \mathbb{Z}$. Ta có thể nhận ra điều này bởi vì lúc này c sẽ lớn hơn n.
+### Fermat's attack
+-  Đây là phương pháp được sử dụng khi ta nhận định khóa `n` được tạo từ 2 số nguyên tố p, q gần bằng nhau.
+- Khi đó ta có biểu thức sau(Ta sẽ xét p> q):
+$$n= pq$$ $$<=>n= (\frac{p+q}{2})^ 2 (\frac{p-q}{2})^2$$(1)
+- Đặt:
+$$(2)\begin{cases}
+x+y& = 5\\ 
+x-y& = 3
+\end{cases}$$
+- Từ (1)(2) suy ra:
+$$n= x^2+ y^2$$
+- Tới đây ta sử dụng phương pháp [Fermat Factor](https://en.wikipedia.org/wiki/Fermat's_factorization_method) để tìm  p, q.
+###  Hastad's broadcast Attack
+- Với những bài toán RSA cho:
+$$\begin{cases}
+1\ e.\\
+nhiều\ cặp\ (c, n)\ tương\ ứng.
+\end{cases}$$
+- Loại bài toán này khá giống với `small public`, thế nên dựa vào cơ sở của `small public` và định lý `Thặng dư Trung Hoa` để giải quyết.
+- Tham khảo thêm [CopperSmith](https://en.wikipedia.org/wiki/Coppersmith%27s_attack)
