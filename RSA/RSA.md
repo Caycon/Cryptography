@@ -72,3 +72,7 @@
     - Tìm trong các kết quả được in ra ta thấy cụm từ `R54` xuất hiện và nó chính là loại mật mã cần tìm.
 
     ![image](https://hackmd.io/_uploads/H1oom6GKa.png)
+## Attack RSA
+### Factoring
+- Với một số bài toán n không đủ lớn ta có thể phân tích được n để tìm khóa bí mật từ đó giải mã.
+- Link phân tích n: [Factordb](http://www.factordb.com/), [alpertron](https://www.alpertron.com.ar/ECM.HTM).
