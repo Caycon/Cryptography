@@ -190,3 +190,14 @@ c= 15664280369288029576575049830939618031655108939747106497837420984704705351920
 print(long_to_bytes(pow(c, d, p)))
 ```
 ![image](https://hackmd.io/_uploads/Hk84AtOFa.png)
+**Challenge 1: Flour_of_test**
+- Challenge này ta có ý tưởng sẽ sử dụng `CRT` do e nhỏ và ta có nhiều giá trị (n, c) tương ứng.
+- Sử dụng `Hastad Attack` ta thu được flag.
+![image](https://hackmd.io/_uploads/HJscOFdKa.png)
+
+**Challenge 2: The_Workshop_Battle**
+- Challenge này sử dụng kỹ thuật `Blinding`:
+$$r^e mod(N)$$
+- Với $r$ là `admin` tuy nhiên lại không cho phép ta gửi `admin` vào. Nhưng ta hoàn toàn có thể gửi vào bằng cách phân tích 'admin' thành 2 số $160658^*2603647$ và lần lượt gửi chúng vào dưới dạng hex.
+$$(admin)^e\ mod(n)$$ $$= (160658)^e(2603647)^e\ mod(n)$$
+![image](https://hackmd.io/_uploads/S1NUN2uKT.png)
