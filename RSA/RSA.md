@@ -124,3 +124,35 @@ $$M \equiv C^d\ mod(N)$$
 - Tuy nhiên thay vì tính $M$ bằng cách thực hiện lên toàn bộ công thức, CRT cho phép chia nhỏ nó thành các phần nhỏ hơn để tăng tốc quá trình giải mã. Cụ thể, CRT chia $d$ thành $d_p,\ d_q$,  tương ứng với các thành phần liên quan đến phép tính modulo $p$ và $q$.
 $$M_p \equiv C^{d_p}\ mod(p)$$ $$M_q \equiv C^{d_q}\ mod(q)$$
 - Sau đó, CRT được sử dụng để kết hợp $M_p,\ M_q$ ta sẽ thu được $M$.
+### CRT
+- `CRT` hay `Chinese Remainder Theorem` chính là thặng dư Trung Hoa, dựa vào thuật toán này, kỹ thuật `CRT` được hình thành.
+- `CRT` là kỹ thuật thường được sử dụng trong quá trình `decrypt` để tối ưu hóa việc tính toán.
+- Thông thường ta sẽ dùng công thức sau để giải mã:
+$$M \equiv C^d\ mod(N)$$
+- Tuy nhiên thay vì tính $M$ bằng cách thực hiện lên toàn bộ công thức, CRT cho phép chia nhỏ nó thành các phần nhỏ hơn để tăng tốc quá trình giải mã. Cụ thể, CRT chia $d$ thành $d_p,\ d_q$,  tương ứng với các thành phần liên quan đến phép tính modulo $p$ và $q$.
+$$M_p \equiv C^{d_p}\ mod(p)$$ $$M_q \equiv C^{d_q}\ mod(q)$$
+- Sau đó, CRT được sử dụng để kết hợp $M_p,\ M_q$ ta sẽ thu được $M$.
+### Common modulus
+**External Attack:**
+- Kiểu tấn công này thường được áp dụng trong kịch bản có  1 plantext nhưng lại sử dụng 2 hay nhiều Public key khác nhau $(N, e_1);(N, e_2)$. Tương ứng ta cũng sẽ có $C_1, C_2$.
+- Thường thì đối với kịch bản này họ sẽ cung cấp cho ta giá trị của $(C_1,e_1, N),  (C_2, e_2, N) $ với điều kiện $d(e_1, e_2)= 1$.
+- Với $d(e_1, e_2)= 1$ thì sẽ tồn tại cặp (a, b) thỏa mãn:
+$$ae_1+ be_2= 1$$  $$\text{(Extended Euclidean Algorithm)}$$.
+- Khi đó ta có: 
+$$C_1^aC_2^b= m^{ae_1}m^{be_2} = m^{ae_1 + be_2} = m$$.
+- Nếu $d(e_1, e_2)= x.\ Với\ x \ne 1$ thì tương tự cũng sẽ tồn tại cặp (a, b) thỏa mãn:
+$$ae_1+ be_2= x$$  $$\text{(Extended Euclidean Algorithm)}$$.
+- Tiếp tục ta sẽ có:
+$$C_1^aC_2^b= m^{ae_1}m^{be_2} = m^{ae_1 + be_2} = m^ x$$ $$=> m= \sqrt[x]{C_1^aC_2^b}$$.
+**Internal attack**
+- Ta được biết là: 
+$$de= 1 mod(\phi(n))$$ $$<=> de= k\phi(n) +1$$ $$<=> k= \frac{de- 1}{\phi(n)}(1)$$
+- Trong kịch bản bạn là một thành viên trong nhóm và được sở hữu (n, e, d) của riêng bản thân bạn.
+- Dựa vào (1) ta có thể tính được k dựa trên việc $\phi(n) \approx n$ để tìm k từ đó suy ra $\phi(n)$.
+- Khi đó:
+$$\begin{cases}
+k= \frac{de- 1}{n}+ x(x \in \mathbb{N^*})\\
+\phi(n)= \frac{ed- 1}{k}
+\end{cases}$$
+- Ta sẽ tăng x lên cho đến khi nào tìm được $\phi(n)$ thỏa mãn.
+- Khi có được $\phi(n)$ ta có thể dễ dàng lấy được thông tin của các cá nhân khác nếu họ để lộ $e$ của họ.
