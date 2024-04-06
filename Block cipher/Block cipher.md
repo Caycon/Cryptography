@@ -184,4 +184,19 @@ C_i= E_K(C_{i-1}) \oplus P_i
 - Decrypt:
 $$P_i= E_K(C_{i-1}) \oplus C_i$$
 ![image](https://hackmd.io/_uploads/Sk5kNyFcp.png)
+## Output feedback- OFB
+- OFB là một phương pháp điều khiển tự động trong đó đầu ra của hệ thống được sử dụng để điều khiển hệ thống. OFB là một phương pháp phổ biến để điều khiển các hệ thống có đầu vào không thể truy cập trực tiếp, chẳng hạn như các hệ thống có nhiều đầu vào hoặc các hệ thống có đầu vào không ổn định.
+- Trong OFB, một bộ điều khiển được thiết kế để tạo ra một tín hiệu điều khiển sao cho đầu ra của hệ thống đạt được mục tiêu mong muốn. Tín hiệu điều khiển được tạo ra bằng cách tính toán sai số giữa đầu ra thực tế của hệ thống và đầu ra mong muốn. Sai số này được gọi là tín hiệu phản hồi.
+- Phản hồi đầu ra có một số ưu điểm so với các phương pháp điều khiển khác. OFB có thể được sử dụng để điều khiển các hệ thống có đầu vào không thể truy cập trực tiếp. OFB cũng có thể được sử dụng để điều khiển các hệ thống có đầu vào không ổn định. Ngoài ra, OFB có thể được sử dụng để điều khiển các hệ thống có nhiều đầu vào.
+- Do tính đối xứng của hoạt động XOR, mã hóa và giải mã hoàn toàn giống nhau:
+$$C_j= P_j \oplus M_j$$ $$P_j= C_j \oplus O_j$$ $$O_j= E_K(I_j)$$ $$I_j= O_{j- 1}$$ $$I_0= IV$$
+![image](https://hackmd.io/_uploads/B1ge_JF9p.png)
+## Counter- CRT
+- CTR (CM) còn được gọi là chế độ truy cập số nguyên (ICM) và segmented integer counter (SIC) mode.
+- CTR là một phương pháp sử dụng block cipher để mã hóa dữ liệu theo các khối có kích thước cố định, tương tự như CBC và CFB. Tuy nhiên, CTR sử dụng một chuỗi giá trị đếm (counter) để tạo ra các key stream (khối mã hóa) để mã hóa các khối dữ liệu, thay vì sử dụng kết quả của các khối dữ liệu trước đó như CFB hoặc CBC.
+![image](https://hackmd.io/_uploads/B1xP91Y56.png)
 
+https://node-security.com/posts/cryptography-pkcs-7-padding/
+https://viblo.asia/p/encryption-des-Qpmleq27lrd
+https://isolution.pro/vi/t/cryptography/feistel-block-cipher/mat-ma-khoi-feistel
+https://nguyenquanicd.blogspot.com/2019/09/aes-bai-1-ly-thuyet-ve-ma-hoa-aes-128.html
