@@ -151,4 +151,17 @@ $$Ciphertext= D_{K1}(E_{K2}(D_{K3}(Ciphertext))).$$
 - Vì các quy trình phụ trong mỗi vòng diễn ra theo cách ngược lại, không giống như Feistel Cipher, các thuật toán mã hóa và giải mã cần được triển khai riêng biệt, mặc dù chúng có liên quan rất chặt chẽ.
     - Inverse MixColumns: thực hiện tương tự như MixColumns trong mã hóa, nhưng khác ở ma trận được sử dụng để thực hiện thao tác.
     - Inverse SubBytes: tương tự SubBytes.
-
+# Block cipher modes of operation:
+## Electronic Code Book- ECB
+- ECB là chế độ hoạt động đơn giản nhất: Ta chia plaintext ra thành từng khối, mỗi khối có độ dài bằng 64 bit (hay độ dài quy định của block cipher), và thực hiện mã hóa độc lập từng khối.
+- ECB có thể mã hóa song song các khối bit, do đó đây là một cách mã hóa nhanh hơn. Tuy nhiên lại dễ bị phân tích mật mã vì có mối quan hệ trực tiếp giữa bản rõ và bản mã
+![image](https://hackmd.io/_uploads/SypWfCdqp.png)
+![image](https://hackmd.io/_uploads/rJb-80u5p.png)
+## Cipher Block Chaining- CBC
+- Trong CBC, khối mật mã trước đó được đưa ra làm đầu vào cho thuật toán mã hóa tiếp theo sau XOR với khối văn bản rõ ban đầu.
+- Encrypt: 
+$$C_i = E_K(P_i ⊕ C_i - 1);\ C_0 = IV$$
+![image](https://hackmd.io/_uploads/BkU1HR_9a.png)
+- Decrypt:
+$$P_{i}=D_{K}(C_{i})\oplus C_{i-1};\ C_{0}=IV$$
+![image](https://hackmd.io/_uploads/Byi6IRO9a.png)
