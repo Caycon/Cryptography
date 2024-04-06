@@ -139,6 +139,7 @@ $$Ciphertext= D_{K1}(E_{K2}(D_{K3}(Ciphertext))).$$
     - Addroundkey: Trong thao tác AddRoundKey, 128 bit của ma trận state sẽ được XOR với 128 bit của khóa con của từng vòng. Vì sử dụng phép XOR nên phép biến đổi ngược của AddRoundKey trong cấu trúc giải mã cũng chính là AddRoundKey. Việc kết hợp với khóa bí mật tạo ra tính làm rối (confusion) của mã hóa. Sự phức tạp của thao tác mở rộng khóa (KeySchedule) giúp gia tăng tính làm rối này.
     
     ![image](https://hackmd.io/_uploads/HkldnaOqp.png)
+    
 ## Giải mã
 - Quá trình giải mã của một bản mã AES tương tự như quá trình mã hóa theo thứ tự ngược lại. Mỗi vòng bao gồm bốn quy trình được tiến hành theo thứ tự ngược lại:
     - AddRoundKey.
@@ -150,6 +151,7 @@ $$Ciphertext= D_{K1}(E_{K2}(D_{K3}(Ciphertext))).$$
 - Vì các quy trình phụ trong mỗi vòng diễn ra theo cách ngược lại, không giống như Feistel Cipher, các thuật toán mã hóa và giải mã cần được triển khai riêng biệt, mặc dù chúng có liên quan rất chặt chẽ.
     - Inverse MixColumns: thực hiện tương tự như MixColumns trong mã hóa, nhưng khác ở ma trận được sử dụng để thực hiện thao tác.
     - Inverse SubBytes: tương tự SubBytes.
+
 # Block cipher modes of operation:
 ## Electronic Code Book- ECB
 - ECB là chế độ hoạt động đơn giản nhất: Ta chia plaintext ra thành từng khối, mỗi khối có độ dài bằng 64 bit (hay độ dài quy định của block cipher), và thực hiện mã hóa độc lập từng khối.
@@ -198,6 +200,4 @@ $$C_j= P_j \oplus M_j$$ $$P_j= C_j \oplus O_j$$ $$O_j= E_K(I_j)$$ $$I_j= O_{j- 1
 https://node-security.com/posts/cryptography-pkcs-7-padding/
 https://viblo.asia/p/encryption-des-Qpmleq27lrd
 https://isolution.pro/vi/t/cryptography/feistel-block-cipher/mat-ma-khoi-feistel
-https://nguyenquanicd.blogspot.com/2019/09/aes-bai-1-ly-thuyet-ve-ma-hoa-aes-128.html    
-
-
+https://nguyenquanicd.blogspot.com/2019/09/aes-bai-1-ly-thuyet-ve-ma-hoa-aes-128.html
