@@ -27,3 +27,11 @@ $$P_3(x_3;\ y_3)= P_1= (x_1; y_1)+ P_2(x_2;\ y_2)$$
 - Xét đường thằng đi qua $P_1;\ P_2$ có phương trình:
 $$y= \alpha x+ \beta \ \(1.0)$$
 #### Với $P_1 \ne P_2$.
+- Từ (1.0) ta có:
+$$y_1- y_2= \alpha (x_1- x_2)$$ $$<=> \alpha= \frac{y_1- y_2}{x_1- x_2}\ \(*)$$
+- Mặt $\ne$: (1.0) $=> \beta= y_1- \alpha x_1\ \(**)$
+- Từ (*)(**):
+$$=> \beta= y_1- \frac{y_1- y_2}{x_1- x_2}x_1= \frac{x_1y_1- x_2y_1}{x_1- x_2}$$
+- Vậy: 
+$$y= \frac{y_1- y_2}{x_1- x_2}x+ \frac{x_1y_1- x_2y_1}{x_1- x_2}$$
+- Với $P_1; P_2$ là 2 điểm đối xứng trên đường cong `E`, khi đó $P_3= P_1+ P_2$ sẽ là điểm vô cùng và thuộc đường cong `E`.
