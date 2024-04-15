@@ -35,3 +35,12 @@ $$=> \beta= y_1- \frac{y_1- y_2}{x_1- x_2}x_1= \frac{x_1y_1- x_2y_1}{x_1- x_2}$$
 - Vậy: 
 $$y= \frac{y_1- y_2}{x_1- x_2}x+ \frac{x_1y_1- x_2y_1}{x_1- x_2}$$
 - Với $P_1; P_2$ là 2 điểm đối xứng trên đường cong `E`, khi đó $P_3= P_1+ P_2$ sẽ là điểm vô cùng và thuộc đường cong `E`.
+#### Với $P_1 \equiv P_2$
+- Ta có $\alpha= \frac{3x^2_1+ a_4}{2y_1}$
+- Đường thẳng đi qua $P_1; P_2$ tiếp tuyến với `E` cắt `E` tại Q thì Q chính là điểm cần tìm khi tính tổng của $P_1; P_2$.
+- Các tính chất của phép cộng trên E:
+     - $P + O = O + P = P\ \ (\forall P \in E).$
+     - $P + (−P) = O\ \ (\forall P \in E).$
+     - $(P + Q) + R = P + (Q + R)\ \ (\forall P,Q,R \in E).$
+     - $P + Q = Q + P\ \ (\forall P,Q \in E).$
+     - $P, Q$ đối xứng nhau qua trục hoành hay $Q = -P$.  Nghịch đảo của $P$ : $-P = -(x,y) = (x, -y).$
