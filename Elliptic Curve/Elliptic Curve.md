@@ -44,3 +44,20 @@ $$y= \frac{y_1- y_2}{x_1- x_2}x+ \frac{x_1y_1- x_2y_1}{x_1- x_2}$$
      - $(P + Q) + R = P + (Q + R)\ \ (\forall P,Q,R \in E).$
      - $P + Q = Q + P\ \ (\forall P,Q \in E).$
      - $P, Q$ đối xứng nhau qua trục hoành hay $Q = -P$.  Nghịch đảo của $P$ : $-P = -(x,y) = (x, -y).$
+### Phép nhân trên Ellipptic
+ **Nhân vô hướng:**
+ - Với $n \in \mathbb{N^*}$ và $P$ là điểm thuộc đường cong Ellipptic, ta có $nP$ sẽ là phép cộng của $n$ lần $P$:
+$$\begin{equation}
+P-> P_n = \underbrace{P + P + \dots + P}_{n \text{ lần}} = Q
+\end{equation}$$
+- Để tối ưu phép nhân vô hướng, có thể sử dụng phương pháp Nhân đôi-và-cộng, đầu tiên biểu diễn số n dưới dạng: $n = n_0 + 2n_1 + 2^2n_2+.....+ 2^mn_m\ với [n_0...n_m] \in {0, 1}$, sau đó áp dụng thuật toán:
+```
+Q ← 0
+for i = 0 to m do
+ if ni = 1 then
+     Q ← CộngĐiểm(Q,P)
+ end if
+ P ← NhânĐôi(P)
+end for
+return Q
+```
