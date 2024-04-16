@@ -96,4 +96,12 @@ $$a^j\ với\ j=0, 1, ...., m- 1$$ $$\text{Lặp lại i từ}\ 0-> m-1:\text{Ch
     - Bắt đầu từ $i = 0$, ta kiểm tra xem $α^{im + j}$ có bằng β hay không, với $j = 0, 1, 2, 3$.
 Nếu không, ta chuyển sang $i = 1$ và lặp lại quá trình kiểm tra.
     - Tiếp tục cho đến khi tìm được nghiệm $x$.
+**Thuật toán:**
+>Chọn $m ≥\sqrt{N}$ và tính $mP$.
+Tính và lưu trữ danh sách $iP$ với $0 ≤ i < m.$
+Tính $Q − jmP$ với $j = 0, 1, . . . , m − 1.$
+if $iP = Q − jmP$ then
+$\ \ \ \ \ \ \ k = i + jm( mod N)$
+end if
+Quay về bước 3
     
