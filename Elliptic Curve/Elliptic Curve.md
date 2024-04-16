@@ -66,3 +66,9 @@ return Q
     - Không tồn tại phép nhân 2 điểm trên đường cong E, có nghĩa là không tồn tại $P.Q\ với\ P; Q \in E$.
     - Không tồn tại thuật toán chia vô hướng $Q: n$. Biết rằng $Q = nP$, bài toán tìm số n là bài toán Logarithm rời rạc. Đây là bài toán khó, thông thường phải thử lần lượt $n = 1, 2, . . . , n− 1$ phép cộng điểm $P$, cho đến khi tổng bằng $Q$, tuy nhiên có một số thuật toán tối ưu hơn để tìm n nhưng vẫn không thể giải được bài toán này trong thời gian đa thức vì thế dựa vào độ khó này có thể xây dựng ra hệ mật đường cong Elliptic với các giao thức cho mã hóa, xác thực và trao đổi khóa.
  ![image](https://hackmd.io/_uploads/H1LrO-IT6.png)
+## Logarithm rời rạc
+- Định nghĩa: Bài toán Logarithm rời rạc trên đường cong Elliptic $(ECDLP)$:
+    - Cho đường cong E trên trường hữu hạn $\mathbb{F_q}$, điểm $P \in E(\mathbb{F_q})$ với bậc $n (nP = O = ∞)$ và điểm $Q \in E(\mathbb{F_q})$, tìm số nguyên $k \in [0, n − 1]$ sao cho $Q = kP$. Số nguyên k được gọi là Logarithm rời rạc của Q với cơ sở P, và thường được viết là $k = log_PQ$.
+    - Việc tìm lại số $k$ là bài toán Logarit rời rạc - một bài toán khó có thể giải được trong thời gian đa thức.
+    - Thuật toán tốt nhất hiện nay để tấn công bài toán ECDLP là sự kết hợp của thuật toán Pohlih-Hellman và Pollard's rho, thuật toán này có độ phức tạp thời gian tính toán là $O(\sqrt{p})$ với $p$ là ước số nguyên tố lớn nhất của  n do đó phải chọn số n sao cho nó chia hết cho số nguyên tố $p$ lớn nhất có $\sqrt{p}$ đủ lớn để giải bài toán này.
+    
