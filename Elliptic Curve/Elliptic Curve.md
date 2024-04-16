@@ -17,6 +17,7 @@ $$E: y_1^2= x^3_1+ Ax+ B$$
 - Nếu L là trường mở rộng bất kỳ của K thì tập hợp các điểm hữu tỷ L trên E là:
 $$E(L) = {(x, y) ∈ L × L : y^2 +a_1xy +a_3y − x^3 −a_2x^2 −a_4x −a_6 = 0} ∪ {∞}\ \text{là điểm ở vô cùng}$$
 ![image](https://hackmd.io/_uploads/rkgNNxNT6.png)
+
 ## Các phép toán trên đường cong Ellipptic.
 ###  Phép cộng trên Ellipptic.
 
@@ -96,6 +97,7 @@ $$a^j\ với\ j=0, 1, ...., m- 1$$ $$\text{Lặp lại i từ}\ 0-> m-1:\text{Ch
     - Bắt đầu từ $i = 0$, ta kiểm tra xem $α^{im + j}$ có bằng β hay không, với $j = 0, 1, 2, 3$.
 Nếu không, ta chuyển sang $i = 1$ và lặp lại quá trình kiểm tra.
     - Tiếp tục cho đến khi tìm được nghiệm $x$.
+    
 **Thuật toán:**
 >Chọn $m ≥\sqrt{N}$ và tính $mP$.
 Tính và lưu trữ danh sách $iP$ với $0 ≤ i < m.$
@@ -104,7 +106,7 @@ if $iP = Q − jmP$ then
 $\ \ \ \ \ \ \ k = i + jm( mod N)$
 end if
 Quay về bước 3
-    
+
 ### Pohlig-Hellman
  - Cho P, Q là các phần tử trong nhóm hữu hạn G bậc N. Ta muốn tìm một số nguyên k với $kP = Q$. Giả sử biết phân tích ra thừa số nguyên tố của $N$ là: $N= \prod_{i}n_i^{e_i}$
  - Phương pháp Pohlig - Hellman thực hiện tốt nhất nếu tất cả các ước nguyên tố của N là nhỏ. Nếu ước nguyên tố lớn nhất xấp xỉ lớn của N thì phương pháp khó áp dụng. Vì lý do này các hệ mật dựa trên logarit rời rạc thường chọn bậc của nhóm có chứa một thừa số nguyên tố lớn
@@ -119,6 +121,7 @@ Quay về bước 3
      - Khi đó $Q_0 = lP_0 = z_0P_0$
      - ta có thể tìm $z_0$ bằng $\frac{N}{q}Q =\frac{N}{q}(z_0 + z_1q + z_2q^2 +· · ·) P = \frac{N}{q}z_oP + (z_1+z_2q)NP = z_0 \frac{N}{p}P$ (NP = ∞)
      - Tương tự như vậy ta có thể tìm $z_1, z_2, z_3 ...$
+
 ### Tấn công MOV
  - Tấn công MOV liên quan đến việc tìm các điểm độc lập tuyến tính và tính toán ghép cặp Weil để giảm ECDLP xuống trường hữu hạn thay vì nhóm điểm trên đường cong elip
  - Mã giả thuật toán
