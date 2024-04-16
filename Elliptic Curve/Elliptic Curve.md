@@ -119,3 +119,12 @@ Quay về bước 3
      - Khi đó $Q_0 = lP_0 = z_0P_0$
      - ta có thể tìm $z_0$ bằng $\frac{N}{q}Q =\frac{N}{q}(z_0 + z_1q + z_2q^2 +· · ·) P = \frac{N}{q}z_oP + (z_1+z_2q)NP = z_0 \frac{N}{p}P$ (NP = ∞)
      - Tương tự như vậy ta có thể tìm $z_1, z_2, z_3 ...$
+### Tấn công MOV
+ - Tấn công MOV liên quan đến việc tìm các điểm độc lập tuyến tính và tính toán ghép cặp Weil để giảm ECDLP xuống trường hữu hạn thay vì nhóm điểm trên đường cong elip
+ - Mã giả thuật toán
+1. Chọn một điểm ngẫu nhiên $T \in E(F_pm)$
+2. Tính bậc $M$ của $T$
+3. Đặt $d = gcd(M, N)$, $T_1 = (M / d)T$. Khi đó $T_1$ có bậc $d$ chia hết cho $N$, vậy $T_1 \in E[N]$
+4. Tính $S_1 = e_N(P, T_1)$ và $S_2 = e_N(P, T_2)$. Khi đó cả $S_1, S_2$ đều thuộc vào $U_d \in F_p^*m$
+5. Giải bài toán logarit rời rạc $S_2 = S_1^k$ trong $F_p^*m$. Kết quả cho ta $k(mod \ N)$
+6. Lặp lại với các điểm ngẫu nhiên $T$ đến khi Lcm của các số $d$ khác nhau thu được là $N$. Khi đó ta xác định được $k(mod\ N)$.
