@@ -72,3 +72,28 @@ return Q
     - Việc tìm lại số $k$ là bài toán Logarit rời rạc - một bài toán khó có thể giải được trong thời gian đa thức.
     - Thuật toán tốt nhất hiện nay để tấn công bài toán ECDLP là sự kết hợp của thuật toán Pohlih-Hellman và Pollard's rho, thuật toán này có độ phức tạp thời gian tính toán là $O(\sqrt{p})$ với $p$ là ước số nguyên tố lớn nhất của  n do đó phải chọn số n sao cho nó chia hết cho số nguyên tố $p$ lớn nhất có $\sqrt{p}$ đủ lớn để giải bài toán này.
     
+**Có một số phương pháp giải quyết Logarithm rời rạc như: [Baby-step giant-step](https://en.wikipedia.org/wiki/Baby-step_giant-step), [Pohlig-Hellman](https://en.wikipedia.org/wiki/Pohlig%E2%80%93Hellman_algorithm), [MOV attack](https://crypto.stanford.edu/pbc/notes/elliptic/movattack.html).**
+### Baby-step giant-step
+- Cho nhóm chu kỳ G cấp n, a là một phần tử sinh $\alpha$ của nhóm và một phần tử nhóm $\beta$. Giờ ta cần tìm $x$ sao cho:
+$$\alpha ^{x}= \beta$$
+- Ta sẽ tính:
+$$m= \sqrt{n}$$
+$$a^j\ với\ j=0, 1, ...., m- 1$$ $$\text{Lặp lại i từ}\ 0-> m-1:\text{Check xem}\ a^{im+ j}= \beta$$ $$\text{Nếu đúng thì:}\ x= im+ j\ \text{là giá trị cần tìm}.$$
+- Baby step:
+    - Ta chia khoảng tìm kiếm nghiệm $x$ thành $m$ phần, mỗi phần có $m$ giá trị.
+    - Việc tính toán trước α^j giúp ta có thể nhanh chóng kiểm tra xem $α^{im + j}$ có bằng $\beta$ hay không.
+- Giant step:
+    - Ta "nhảy" qua $m$ giá trị mỗi lần, giúp giảm số lượng phép toán cần thực hiện.
+    
+**Thuật toán có độ phức tạp thời gian là $O(\sqrt{n})$.**
+**Ví dụ:**
+
+- Giả sử $n = 16, m = 4$.
+- Baby step: 
+    - Ta chia khoảng tìm kiếm nghiệm $x$ thành 4 phần: $[0, 3], [4, 7], [8, 11], [12, 15]$.
+    - Trong mỗi phần, ta tính toán trước $α^j$ cho $j = 0, 1, 2, 3$.
+- Giant step:
+    - Bắt đầu từ $i = 0$, ta kiểm tra xem $α^{im + j}$ có bằng β hay không, với $j = 0, 1, 2, 3$.
+Nếu không, ta chuyển sang $i = 1$ và lặp lại quá trình kiểm tra.
+    - Tiếp tục cho đến khi tìm được nghiệm $x$.
+    
