@@ -105,3 +105,17 @@ $\ \ \ \ \ \ \ k = i + jm( mod N)$
 end if
 Quay về bước 3
     
+### Pohlig-Hellman
+ - Cho P, Q là các phần tử trong nhóm hữu hạn G bậc N. Ta muốn tìm một số nguyên k với $kP = Q$. Giả sử biết phân tích ra thừa số nguyên tố của $N$ là: $N= \prod_{i}n_i^{e_i}$
+ - Phương pháp Pohlig - Hellman thực hiện tốt nhất nếu tất cả các ước nguyên tố của N là nhỏ. Nếu ước nguyên tố lớn nhất xấp xỉ lớn của N thì phương pháp khó áp dụng. Vì lý do này các hệ mật dựa trên logarit rời rạc thường chọn bậc của nhóm có chứa một thừa số nguyên tố lớn
+ - Pohlig-Hellman - rút gọn các phép tính logarit rời rạc về các nhóm con nguyên tố cấp P và sử dụng Định lý số dư Trung Hoa để giải hệ đồng dư cho logarit rời rạc cấp toàn phần
+ - Thuật toán Pohlig-Hellman hoạt động như sau:
+     - Giả sử $n = q_1^{e1}*q_2^{e2}*...*q_i^{ei}$
+     - Tính $l_i = l \ mod \ q_i^{ei}$ (1&lt;= i &lt;= r)
+     - Sử dụng định lý thặng dư trung hoa để tính $$ l ≡ l_1 \ (mod \ q_1^{e1})$$ $$ l ≡ l_2 \ (mod \ q_2^{e2})$$ $$ ... $$ $$ l ≡ l_i \ (mod \ q_i^{ei})$$ 
+     - Ở đây $q_1, q_2,..., q_i$ là tập hợp nguyên tố cùng nhau gồm các số nguyên dương, $gcd(q_i, q_j) = 1$. $l_1, l_2, ..., l_i$ đều là các số nguyên dương sao cho $0 \leq l_i <q_i$. Số nguyên dương duy nhất l có thể được tính toán một cách hiệu quả bằng cách sử dụng Thuật toán Euclide mở rộng.
+     - $l_i=z_0+z_1q^1+z_2q^2+...+z_{e-1}q^{e-1}$ , $z_i \in [0, p-1]$
+     - $P_0= \frac{n}{q_i}$ và $Q_0= \frac{n}{q_i}Q$
+     - Khi đó $Q_0 = lP_0 = z_0P_0$
+     - ta có thể tìm $z_0$ bằng $\frac{N}{q}Q =\frac{N}{q}(z_0 + z_1q + z_2q^2 +· · ·) P = \frac{N}{q}z_oP + (z_1+z_2q)NP = z_0 \frac{N}{p}P$ (NP = ∞)
+     - Tương tự như vậy ta có thể tìm $z_1, z_2, z_3 ...$
