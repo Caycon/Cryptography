@@ -8,6 +8,7 @@
     - `Khả năng kháng tiền ảnh (preimage resistance)`: Cho một giá trị hash đầu ra h, bất khả thi tìm được một input y nào tạo ra giá trị hash h. Nghĩa là, không thể nào dựa vào kết quả đầu ra (hash) để tìm lại dữ liệu ban đầu.
     - `Khả năng kháng va chạm thứ hai (second preimage resistance)`: Cho một input x, bất khả thi tìm được một input khác y (khác với x) tạo ra cùng giá trị hash với x. Nghĩa là, khó có thể tạo ra hai dữ liệu đầu vào khác nhau nhưng lại cho cùng một kết quả hash.
     - `Output giả ngẫu nhiên (output pseudo-randomness)`: Giá trị đầu ra của hàm băm phải trông giống như ngẫu nhiên, không có bất kỳ mô hình nào phân biệt được. Điều này đảm bảo tính khó đoán của giá trị hash.
+
 - Hàm băm không nhất thiết phải tạo ra giá trị đầu ra duy nhất cho mỗi giá trị đầu vào. Điều này chỉ có thể xảy ra nếu hàm băm có đầu ra với độ dài vô hạn.
 ![image](https://hackmd.io/_uploads/HyXtz_IxC.png)
 - Bản chất của việc ánh xạ từ không gian vô hạn (đầu vào) sang không gian hữu hạn (đầu ra) sẽ luôn dẫn đến va chạm (hai đầu vào khác nhau cho cùng một kết quả).
@@ -51,16 +52,16 @@
 - Collision attack là một dạng tấn công trong mật mã học, kẻ tấn công cố gắng tìm hai đầu vào khác nhau tạo ra cùng một giá trị băm (hash value). Nói cách khác, họ muốn tìm hai thông điệp (message) $M_1$ và $M_2$ sao cho $H(M_1) = H(M_2)$, trong đó H là hàm băm.
 
 - Mục đích của Collision attack:
+
+    - Ký giả mạo chữ ký điện tử: Kẻ tấn công có thể tạo ra một văn bản giả mạo có cùng chữ ký điện tử với một văn bản hợp lệ khác, đánh lừa người nhận tin rằng văn bản giả mạo là do người gửi hợp pháp tạo ra.
+    - Thay đổi nội dung tin nhắn: Kẻ tấn công có thể thay đổi nội dung tin nhắn đã được ký và xác thực, sau đó tạo ra một chữ ký mới cho tin nhắn đã sửa đổi, khiến người nhận tin tin rằng tin nhắn vẫn là bản gốc.
+    - Phá mã xác thực tin nhắn (MAC): Kẻ tấn công có thể tạo ra hai tin nhắn khác nhau nhưng có cùng giá trị MAC, khiến hệ thống xác thực tin nhắn tin rằng hai tin nhắn này là giống nhau.
 - Loại Collision attack:
 
     - Collision attack cổ điển: Kẻ tấn công không có bất kỳ thông tin gì về hàm băm hay các đầu vào trước đây. Họ chỉ sử dụng các phương pháp toán học và thử nghiệm để có thể collision attack.
     - Collision attack được hỗ trợ trước: Kẻ tấn công có một số thông tin về hàm băm hoặc các đầu vào trước đây, giúp họ dễ dàng tìm kiếm các giấ trị cần kiếm hơn.
     - Collision attack có chọn lọc: Kẻ tấn công có thể chọn một đầu vào cụ thể $(M_1)$ và tìm kiếm đầu vào thứ hai $(M_2)$ để $H(M_1) = H(M_2)$.
 - Tham khảo thêm tại [Collision attack](https://en.wikipedia.org/wiki/Collision_attack).
-
-    - Ký giả mạo chữ ký điện tử: Kẻ tấn công có thể tạo ra một văn bản giả mạo có cùng chữ ký điện tử với một văn bản hợp lệ khác, đánh lừa người nhận tin rằng văn bản giả mạo là do người gửi hợp pháp tạo ra.
-    - Thay đổi nội dung tin nhắn: Kẻ tấn công có thể thay đổi nội dung tin nhắn đã được ký và xác thực, sau đó tạo ra một chữ ký mới cho tin nhắn đã sửa đổi, khiến người nhận tin tin rằng tin nhắn vẫn là bản gốc.
-    - Phá mã xác thực tin nhắn (MAC): Kẻ tấn công có thể tạo ra hai tin nhắn khác nhau nhưng có cùng giá trị MAC, khiến hệ thống xác thực tin nhắn tin rằng hai tin nhắn này là giống nhau.
 
 **Preimage attack:**
 - Preimage attack: là một dạng tấn công mật mã học trong đó kẻ tấn công cố gắng tìm một giá trị đầu vào (preimage) cụ thể tạo ra một giá trị băm (hash value) đã được biết. Nói cách khác, kẻ tấn công biết giá trị băm H(x) và muốn tìm x sao cho H(x) = H(y), trong đó y là giá trị băm đã biết.
