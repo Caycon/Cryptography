@@ -45,3 +45,13 @@
     - Hiệu ứng lan truyền — Avalanche effect: chỉ một sự thay đổi nhỏ của message có thể thay đổi đáng kể kết quả hash đến nỗi ta không biết được mối liên hệ với kết quả hash cũ.
     - Ngăn chặn đụng độ — Collision resistant: không khả thi (không thể) để tìm được giá trị 2 chuỗi đầu vào có cùng kết quả giá trị băm.
     - Ngăn chặn tấn công tiền ảnh — Pre-image attack resistant: Một cách tấn công vào các hàm băm mật mã thường cố tìm một message có giá trị hash đã cho trước. Các hàm băm mật mã phải chống lại được kiểu tấn công này.
+
+## Attack hash function
+**Collision attack:**
+- Collision attack là một dạng tấn công trong mật mã học, kẻ tấn công cố gắng tìm hai đầu vào khác nhau tạo ra cùng một giá trị băm (hash value). Nói cách khác, họ muốn tìm hai thông điệp (message) $M_1$ và $M_2$ sao cho $H(M_1) = H(M_2)$, trong đó H là hàm băm.
+
+- Mục đích của Collision attack:
+
+    - Ký giả mạo chữ ký điện tử: Kẻ tấn công có thể tạo ra một văn bản giả mạo có cùng chữ ký điện tử với một văn bản hợp lệ khác, đánh lừa người nhận tin rằng văn bản giả mạo là do người gửi hợp pháp tạo ra.
+    - Thay đổi nội dung tin nhắn: Kẻ tấn công có thể thay đổi nội dung tin nhắn đã được ký và xác thực, sau đó tạo ra một chữ ký mới cho tin nhắn đã sửa đổi, khiến người nhận tin tin rằng tin nhắn vẫn là bản gốc.
+    - Phá mã xác thực tin nhắn (MAC): Kẻ tấn công có thể tạo ra hai tin nhắn khác nhau nhưng có cùng giá trị MAC, khiến hệ thống xác thực tin nhắn tin rằng hai tin nhắn này là giống nhau.
