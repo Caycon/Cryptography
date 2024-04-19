@@ -61,3 +61,16 @@
     - Ký giả mạo chữ ký điện tử: Kẻ tấn công có thể tạo ra một văn bản giả mạo có cùng chữ ký điện tử với một văn bản hợp lệ khác, đánh lừa người nhận tin rằng văn bản giả mạo là do người gửi hợp pháp tạo ra.
     - Thay đổi nội dung tin nhắn: Kẻ tấn công có thể thay đổi nội dung tin nhắn đã được ký và xác thực, sau đó tạo ra một chữ ký mới cho tin nhắn đã sửa đổi, khiến người nhận tin tin rằng tin nhắn vẫn là bản gốc.
     - Phá mã xác thực tin nhắn (MAC): Kẻ tấn công có thể tạo ra hai tin nhắn khác nhau nhưng có cùng giá trị MAC, khiến hệ thống xác thực tin nhắn tin rằng hai tin nhắn này là giống nhau.
+
+**Preimage attack:**
+- Preimage attack: là một dạng tấn công mật mã học trong đó kẻ tấn công cố gắng tìm một giá trị đầu vào (preimage) cụ thể tạo ra một giá trị băm (hash value) đã được biết. Nói cách khác, kẻ tấn công biết giá trị băm H(x) và muốn tìm x sao cho H(x) = H(y), trong đó y là giá trị băm đã biết.
+
+- Mục đích của tấn công tiền ảnh:
+
+    - Ký giả mạo chữ ký điện tử: Kẻ tấn công có thể giả mạo chữ ký điện tử của một người khác bằng cách tìm ra giá trị đầu vào tạo ra cùng giá trị băm với chữ ký hợp lệ.
+    - Phá mã xác thực tin nhắn (MAC): Kẻ tấn công có thể thay đổi nội dung tin nhắn đã được ký và xác thực, sau đó tạo ra một giá trị MAC mới cho tin nhắn đã sửa đổi, khiến người nhận tin tin rằng tin nhắn vẫn là bản gốc.
+    - Khôi phục mật khẩu: Kẻ tấn công có thể sử dụng giá trị băm của mật khẩu được lưu trữ để giải mã mật khẩu.
+- Tham khảo thêm tại [Preimage attack](https://en.wikipedia.org/wiki/Preimage_attack).
+
+**Birthday attack:**
+- Birthday attack là một kỹ thuật tấn công mật mã học dựa trên xác suất để tìm kiếm hai giá trị đầu vào tạo ra cùng một giá trị băm. Nói cách khác, kẻ tấn công cố gắng tìm hai thông điệp $M_1$ và $M_2$ sao cho $H(M_1) = H(M_2)$, trong đó H là hàm băm.
