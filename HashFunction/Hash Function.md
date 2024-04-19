@@ -74,3 +74,22 @@
 
 **Birthday attack:**
 - Birthday attack là một kỹ thuật tấn công mật mã học dựa trên xác suất để tìm kiếm hai giá trị đầu vào tạo ra cùng một giá trị băm. Nói cách khác, kẻ tấn công cố gắng tìm hai thông điệp $M_1$ và $M_2$ sao cho $H(M_1) = H(M_2)$, trong đó H là hàm băm.
+
+- Mục đích của Birthday attack:
+
+    - Ký giả mạo chữ ký điện tử: Kẻ tấn công có thể tạo ra một văn bản giả mạo có cùng chữ ký điện tử với một văn bản hợp lệ khác, đánh lừa người nhận tin rằng văn bản giả mạo là do người gửi hợp pháp tạo ra.
+    - Phá mã xác thực tin nhắn (MAC): Kẻ tấn công có thể tạo ra hai tin nhắn khác nhau nhưng có cùng giá trị MAC, khiến hệ thống xác thực tin nhắn tin rằng hai tin nhắn này là giống nhau.
+    - Thay đổi nội dung tin nhắn: Kẻ tấn công có thể thay đổi nội dung tin nhắn đã được ký và xác thực, sau đó tạo ra một chữ ký mới cho tin nhắn đã sửa đổi, khiến người nhận tin tin rằng tin nhắn vẫn là bản gốc.
+- Nguyên lý hoạt động:
+
+    - Birthday attack dựa trên xác suất thống kê. Với một nhóm ít nhất $23$ người, xác suất để có ít nhất hai người có cùng ngày sinh nhật là hơn $50%$. Tương tự, với một hàm băm có $n$ giá trị đầu vào khả thi, xác suất để tìm kiếm hai đầu vào tạo ra cùng một giá trị băm sau $\sqrt{n}$ phép tính là khoảng $50%$.
+
+- Ví dụ:
+
+    - Với hàm băm MD5 có $2^{128}$ giá trị đầu vào khả thi, kẻ tấn công có thể tìm kiếm va chạm sau khoảng $2^{64}$ phép tính (tương đương với $1.85$ x $10^{19}$ phép tính).
+    - Với hàm băm SHA-256 có $2^{256}$ giá trị đầu vào khả thi, kẻ tấn công cần khoảng $2^{128}$ phép tính (tương đương với $3.40$ x $10^{38}$ phép tính) để tìm kiếm va chạm.
+- So sánh với tấn công va chạm:
+
+    - Birthday attack không yêu cầu kẻ tấn công có bất kỳ thông tin gì về hàm băm hay các đầu vào trước đây.
+    - Birthday attack thường hiệu quả hơn tấn công va chạm cổ điển, đặc biệt là với các hàm băm có độ dài đầu ra ngắn.
+    - Tuy nhiên, Birthday attack vẫn tốn kém tài nguyên tính toán hơn so với một số loại tấn công va chạm khác như tấn công va chạm được hỗ trợ trước.
