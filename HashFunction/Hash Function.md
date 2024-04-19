@@ -93,3 +93,5 @@
     - Birthday attack không yêu cầu kẻ tấn công có bất kỳ thông tin gì về hàm băm hay các đầu vào trước đây.
     - Birthday attack thường hiệu quả hơn tấn công va chạm cổ điển, đặc biệt là với các hàm băm có độ dài đầu ra ngắn.
     - Tuy nhiên, Birthday attack vẫn tốn kém tài nguyên tính toán hơn so với một số loại tấn công va chạm khác như tấn công va chạm được hỗ trợ trước.
+- Tham khảo thêm tại đây [Birthday attack](https://en.wikipedia.org/wiki/Birthday_attack)
+- [Length extension attack](https://www.bing.com/search?q=length+extension+attack&cvid=848b20e29b7d4056a65183b771c6db8c&gs_lcrp=EgZjaHJvbWUqBggBEAAYQDIGCAAQRRg5MgYIARAAGEAyBggCEAAYQDIGCAMQABhAMgYIBBAAGEAyBggFEAAYQDIGCAYQABhAMgYIBxAAGEAyBggIEAAYQNIBCDkxMTdqMGo5qAIFsAIB&FORM=ANAB01&PC=ACTS)
