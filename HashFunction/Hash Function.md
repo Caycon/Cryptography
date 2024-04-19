@@ -25,3 +25,23 @@
 
     - Một số hàm băm trong danh sách đã được biết đến các lỗ hổng bảo mật, có thể tạo ra va chạm (hai đầu vào khác nhau cho cùng một kết quả).
     - Do đó, không nên sử dụng MD4, MD5 và SHA-1 cho các ứng dụng đòi hỏi tính bảo mật cao. RIPEMD với kích thước đầu ra lớn, Whirlpool và SHA-1 vẫn được sử dụng trong một số thuật toán khác.
+>- Secure Hashing Algorithm 2 (SHA-2):
+    - Là một trong những họ hàm băm phổ biến và được sử dụng nhiều nhất hiện nay.
+    - Xuất bản năm 2001 với các kích thước đầu ra $224, 256, 384$ hoặc $512$ bits.
+    - SHA-2 sử dụng cấu trúc Merkle-Damgård để nén dữ liệu thành một chuỗi ngắn hơn.
+    - Cấu trúc Merkle-Damgård sử dụng các bước:
+    - Bổ sung bắt buộc (Mandatory Padding): Thêm một chuỗi đặc biệt và chiều dài của tin nhắn vào cuối tin nhắn để đảm bảo kích thước đạt bội số của khối dữ liệu.
+    - Nén (Compression): Xử lý từng khối dữ liệu theo thứ tự, sử dụng hàm nén để tạo ra giá trị trung gian.
+    - Đầu ra (Output): Giá trị băm cuối cùng là kết quả của công đoạn nén cuối.
+- Keccak: Hàm băm Keccak là победитель (pobeditel - tiếng Nga) của cuộc thi NIST tổ chức để tìm ra hàm băm cho Secure Hashing Algorithm 3 (SHA-3).
+- Keccak sử dụng cấu trúc sponge với hai giai đoạn: hấp thụ (absorbing) và chiết xuất (squeezing).
+- SHA-3 gồm các phiên bản: SHA3–224, SHA3–256, SHA3–384, SHA3–512, SHAKE128, và SHAKE256. Đặc biệt, SHAKE có thể tạo ra giá trị băm với kích thước tùy ý.
+
+## Tích chất- Đặc điểm
+- Hàm băm mật mã có 6 tính chất sau:
+    - Tính xác định — Deterministic: cùng một chuỗi đầu vào, hàm băm luôn trả về một kết quả giống nhau.
+    - Nhanh chóng — Quick: tiêu tốn ít thời gian để tính toán giá trị băm của bất kì chuỗi đầu vào nào.
+    - Hàm một chiều — One-way function: không khả thi (không thể) để tìm được giá trị chuỗi đầu vào khi biết giá trị băm của nó trừ khi thử hết tất cả các giá trị có thể.
+    - Hiệu ứng lan truyền — Avalanche effect: chỉ một sự thay đổi nhỏ của message có thể thay đổi đáng kể kết quả hash đến nỗi ta không biết được mối liên hệ với kết quả hash cũ.
+    - Ngăn chặn đụng độ — Collision resistant: không khả thi (không thể) để tìm được giá trị 2 chuỗi đầu vào có cùng kết quả giá trị băm.
+    - Ngăn chặn tấn công tiền ảnh — Pre-image attack resistant: Một cách tấn công vào các hàm băm mật mã thường cố tìm một message có giá trị hash đã cho trước. Các hàm băm mật mã phải chống lại được kiểu tấn công này.
