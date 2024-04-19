@@ -51,6 +51,12 @@
 - Collision attack là một dạng tấn công trong mật mã học, kẻ tấn công cố gắng tìm hai đầu vào khác nhau tạo ra cùng một giá trị băm (hash value). Nói cách khác, họ muốn tìm hai thông điệp (message) $M_1$ và $M_2$ sao cho $H(M_1) = H(M_2)$, trong đó H là hàm băm.
 
 - Mục đích của Collision attack:
+- Loại Collision attack:
+
+    - Collision attack cổ điển: Kẻ tấn công không có bất kỳ thông tin gì về hàm băm hay các đầu vào trước đây. Họ chỉ sử dụng các phương pháp toán học và thử nghiệm để có thể collision attack.
+    - Collision attack được hỗ trợ trước: Kẻ tấn công có một số thông tin về hàm băm hoặc các đầu vào trước đây, giúp họ dễ dàng tìm kiếm các giấ trị cần kiếm hơn.
+    - Collision attack có chọn lọc: Kẻ tấn công có thể chọn một đầu vào cụ thể $(M_1)$ và tìm kiếm đầu vào thứ hai $(M_2)$ để $H(M_1) = H(M_2)$.
+- Tham khảo thêm tại [Collision attack](https://en.wikipedia.org/wiki/Collision_attack).
 
     - Ký giả mạo chữ ký điện tử: Kẻ tấn công có thể tạo ra một văn bản giả mạo có cùng chữ ký điện tử với một văn bản hợp lệ khác, đánh lừa người nhận tin rằng văn bản giả mạo là do người gửi hợp pháp tạo ra.
     - Thay đổi nội dung tin nhắn: Kẻ tấn công có thể thay đổi nội dung tin nhắn đã được ký và xác thực, sau đó tạo ra một chữ ký mới cho tin nhắn đã sửa đổi, khiến người nhận tin tin rằng tin nhắn vẫn là bản gốc.
