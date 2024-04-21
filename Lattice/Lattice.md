@@ -39,3 +39,9 @@ $$
         > Shortest Vector Problem (SVP):Cho lattice $(\mathcal{L})$, tìm $(\vec{v}\in\mathcal{L})$ sao cho $(\vert\vert\vec{v}\vert\vert=\lambda(\mathcal{L})).$
     - Bài toán vectơ ngắn nhất xấp xỉ (apprSVP): Tìm vectơ u trong mạng L sao cho độ dài của u nhỏ hơn hoặc bằng một giá trị xấp xỉ (phụ thuộc vào kích thước mạng) của khoảng cách ngắn nhất của mạng L.
         > Approximate Shortest vector problem (apprSVP): Giả sử $(\psi(n))$ là một hàm chỉ phụ thuộc vào $(n)$ và $(\mathcal{L})$ là một lattice có kích thước $(n)$. Bài toán vectơ ngắn nhất xấp xỉ $(\psi(n))$-apprSVP là tìm một vector $(\vec{v}\in\mathcal{L})$ sao cho độ dài của nó nhỏ hơn $(\psi(n))$ lần độ dài của vectơ ngắn nhất trong mạng. Hay nói cách khác $(\vert\vert\vec{v}\vert\vert\leq\psi(n)\lambda(\mathcal{L}))$, với $\lambda(\mathcal{L}))$ là độ dài của vectơ ngắn nhất trong mạng L.
+# Một số thuật toán và định lý
+**Định lý Hermite:**
+- Với mọi lattice $(\mathcal{L})$, $\exists$ vector $\ne 0$ $(\vec{v}\in\mathcal{L})$ sao cho $(\vert\vert\vec{v}\vert\vert\leq \sqrt{n}\det(\mathcal{L})^{\frac 1 n})$.
+**Hằng số Hermite:**
+- Cho chiều n bất kỳ, Hằng số Hermite γ_n được định nghĩa là giá trị nhỏ nhất thỏa mãn tính chất: Mọi mạng Λ có chiều n đều chứa một vectơ khác vectơ không $v\in \mathbb{A}$ sao cho: $$(\vert\vert\vec{v}\vert\vert^2\leq \gamma_n \det(\mathcal{L})^{\frac 2 n})$$
+- Trong đó, det(Λ) ký hiệu định thức của Λ. Do đó, theo định lý Hermite, thì $γ_n ≤ n$.
