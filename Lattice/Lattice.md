@@ -1,0 +1,9 @@
+# Introduct
+- **Lattice** trong toán học là một tập hợp các điểm được xác định trong không gian nhiều chiều thông qua các tổ hợp tuyến tính của một tập hợp hữu hạn các vector cơ sở. Lưới thường được định nghĩa trong không gian `Euclid` n chiều, trong đó mỗi điểm trong lưới có tọa độ là các số nguyên. Vector cơ sở của lưới là các vector tạo thành một hệ thống độc lập tuyến tính, có thể tạo ra mọi điểm trong lưới thông qua các tổ hợp tuyến tính của chúng.
+- Cụ thể, một lưới trong không gian n chiều có thể được biểu diễn như sau: $$L= ({v_1;v_2;v_3;....;v_n})$$
+- Trong đó $({v_1;v_2;v_3;....;v_n})$ là các vector cơ sở của lưới, và mọi điểm trong lưới được biểu diễn như một tổ hợp tuyến tính của các vector cơ sở: $$v= a_1v_1+a_2v_2+....a_nv_n$$ $$(\text{Với}\ a_1;a_2;...;a_n\ \text{là các số nguyên}).$$
+-  **Basis (Cơ sở)**: Một tập hợp các vector được gọi là một hệ cơ sở của lattice nếu mọi điểm trong lattice có thể được biểu diễn dưới dạng một tổ hợp tuyến tính của các vector trong hệ cơ sở đó.
+- **Shortest Vector Problem (SVP, Vấn đề vector ngắn nhất)**: SVP là một trong những vấn đề quan trọng nhất trong lý thuyết lattice. Nó đặt ra câu hỏi: "Tìm vector cơ sở ngắn nhất của một lattice đã cho".
+- **Closest Vector Problem (CVP, Vấn đề vector gần nhất)**: CVP là một vấn đề liên quan khác, trong đó bạn cần tìm vector trong lattice gần nhất với một điểm đã cho nào đó trong không gian.
+- **Lattice Reduction (Giảm lattice)**: Đây là một kỹ thuật quan trọng để giảm độ phức tạp của lattice, giúp giải quyết các vấn đề như SVP và CVP hiệu quả hơn. Thuật toán giảm lattice nổi tiếng nhất là thuật toán LLL (Lenstra-Lenstra-Lovász).
+- **Lattice-based Cryptography (Mật mã dựa trên lattice)**: Lý thuyết lattice cũng đóng vai trò quan trọng trong lĩnh vực mật mã. Các hệ thống mật mã dựa trên lattice thường không dễ bị tấn công bởi các thuật toán lượng tử và đang trở thành một lựa chọn phổ biến cho các ứng dụng mật mã hiện đại.
