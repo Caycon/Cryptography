@@ -7,3 +7,20 @@
 - **Closest Vector Problem (CVP, Vấn đề vector gần nhất)**: CVP là một vấn đề liên quan khác, trong đó bạn cần tìm vector trong lattice gần nhất với một điểm đã cho nào đó trong không gian.
 - **Lattice Reduction (Giảm lattice)**: Đây là một kỹ thuật quan trọng để giảm độ phức tạp của lattice, giúp giải quyết các vấn đề như SVP và CVP hiệu quả hơn. Thuật toán giảm lattice nổi tiếng nhất là thuật toán LLL (Lenstra-Lenstra-Lovász).
 - **Lattice-based Cryptography (Mật mã dựa trên lattice)**: Lý thuyết lattice cũng đóng vai trò quan trọng trong lĩnh vực mật mã. Các hệ thống mật mã dựa trên lattice thường không dễ bị tấn công bởi các thuật toán lượng tử và đang trở thành một lựa chọn phổ biến cho các ứng dụng mật mã hiện đại.
+# Lattice
+- Định nghĩa (Hệ mạng): Cho một cơ sở gồm $n$ vectơ có tọa độ thực với $n$ mục, hệ mạng được tạo bởi cơ sở đó là tập hợp các tổ hợp tuyến tính nguyên của các vectơ. Nói cách khác, $B = \{v_i = (x_{i1}, x_{i2}, \ldots, x_{in}): 0 < i < n, x_{ij} \in \mathbb{R} \ \forall i, j\}$, sau đó hệ mạng $L$ được đưa ra bởi $L = \mathcal{C}(B) = \{\sum_{i=1}^n a_i v_i: a_i \in \mathbb{Z}\}$. Ta cũng có thể viết $B$ để biểu thị một ma trận được hình thành bằng cách lấy các cột làm vectơ cơ sở:
+$$\begin{align*}
+B &= \begin{pmatrix}
+b_{11} & b_{12} & \cdots & b_{1n} \\
+b_{21} & b_{22} & \cdots & b_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+b_{n1} & b_{n2} & \cdots & b_{nn}
+\end{pmatrix}&=
+\begin{pmatrix}
+\vec{v}_1 \\
+\vec{v}_2 \\
+\vdots \\
+\vec{v}_n
+\end{pmatrix}
+\end{align*}
+$$
