@@ -24,3 +24,18 @@ b_{n1} & b_{n2} & \cdots & b_{nn}
 \end{pmatrix}
 \end{align*}
 $$
+**Ma trận unimodular:**
+- Ma trận unimodular là ma trận có định thức bằng ±1.
+- Nếu hai cơ sở B và C tạo ra cùng một mạng L, thì ma trận tương ứng của chúng được liên hệ bởi phép nhân với một ma trận unimodular U.
+- Có thể biến đổi một cơ sở thành cơ sở khác bằng các phép toán cơ bản trên cột, bao gồm:
+    - Đổi vị trí các cột.
+    - Nhân một cột với -1.
+    - Cộng một bội số của một cột với một cột khác.
+# Vấn đề bài toán lattices
+- Gồm có các bài toán như sau:
+    - Bài toán vectơ gần nhất (CVP): Cho một vectơ v không thuộc mạng L, tìm vectơ u trong mạng L sao cho khoảng cách giữa v và u là nhỏ nhất. 
+        > Closest Vector Problem (CVP): Cho một vector $(\vec{w} \in \mathbb{R}^n)$ không thuộc lattice $(\mathcal{L})$, tìm vector $(\vec{v}\in\mathcal{L})$ sao cho khoảng cách giữa chúng là ngắn nhất, $(\vert\vert\vec{v}-\vec{w}\vert\vert)$ là tối thiểu.
+    - Bài toán vectơ ngắn nhất (SVP): Tìm vectơ u trong mạng L sao cho độ dài của u là khoảng cách ngắn nhất của mạng L.
+        > Shortest Vector Problem (SVP):Cho lattice $(\mathcal{L})$, tìm $(\vec{v}\in\mathcal{L})$ sao cho $(\vert\vert\vec{v}\vert\vert=\lambda(\mathcal{L})).$
+    - Bài toán vectơ ngắn nhất xấp xỉ (apprSVP): Tìm vectơ u trong mạng L sao cho độ dài của u nhỏ hơn hoặc bằng một giá trị xấp xỉ (phụ thuộc vào kích thước mạng) của khoảng cách ngắn nhất của mạng L.
+        > Approximate Shortest vector problem (apprSVP): Giả sử $(\psi(n))$ là một hàm chỉ phụ thuộc vào $(n)$ và $(\mathcal{L})$ là một lattice có kích thước $(n)$. Bài toán vectơ ngắn nhất xấp xỉ $(\psi(n))$-apprSVP là tìm một vector $(\vec{v}\in\mathcal{L})$ sao cho độ dài của nó nhỏ hơn $(\psi(n))$ lần độ dài của vectơ ngắn nhất trong mạng. Hay nói cách khác $(\vert\vert\vec{v}\vert\vert\leq\psi(n)\lambda(\mathcal{L}))$, với $\lambda(\mathcal{L}))$ là độ dài của vectơ ngắn nhất trong mạng L.
