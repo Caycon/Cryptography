@@ -45,3 +45,9 @@ $$
 **Hằng số Hermite:**
 - Cho chiều n bất kỳ, Hằng số Hermite γ_n được định nghĩa là giá trị nhỏ nhất thỏa mãn tính chất: Mọi mạng Λ có chiều n đều chứa một vectơ khác vectơ không $v\in \mathbb{A}$ sao cho: $$(\vert\vert\vec{v}\vert\vert^2\leq \gamma_n \det(\mathcal{L})^{\frac 2 n})$$
 - Trong đó, det(Λ) ký hiệu định thức của Λ. Do đó, theo định lý Hermite, thì $γ_n ≤ n$.
+**Babai’s Algorithm:**
+- Giả  sử $B=\{v_i,\cdots,v_n\}$ là một cơ sở của lattice $\mathcal{L}(B)$. Khi đó $|\det \mathcal{L}|\leq \prod_{i=1}^n \|v_i\|$(định thức của $\mathcal{L}$ được ký hiệu là $∣\det(L)∣$ vì định thức có thể âm).
+- Dấu bằng xảy ra khi và chỉ khi cơ sở B là `vuông góc`, nghĩa là mọi cặp vectơ $(v_i;v_j)$ khác nhau thỏa mãn $(v_i;v_j)= 0$(tích vô hướng).
+- Nói cách khác:
+    - Định thức của một mạng được coi như thể tích của khối song song được tạo bởi các vectơ cơ sở. Do đó, tích các độ dài của các vectơ cơ sở sẽ là một ước tính thô cho thể tích này.
+    - Điều kiện vuông góc đảm bảo các vectơ cơ sở không "bù trừ" thể tích cho nhau, dẫn đến việc tích các độ dài bằng chính thể tích của khối song song, đạt được dấu bằng.
