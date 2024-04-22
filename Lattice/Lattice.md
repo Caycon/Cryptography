@@ -70,3 +70,8 @@ $$
     - Mặc dù thuật toán Babai đơn giản, việc phân tích chính xác trường hợp nào thuật toán hoạt động và trường hợp nào không hoạt động lại là vấn đề khó.
     - Đoạn văn kết thúc bằng việc gợi ý về các phương pháp tốt hơn để giải các bài toán tìm vector gần nhất xấp xỉ (apprSVP) và tìm vector ngắn nhất xấp xỉ (apprCVP).
 - Nói chung sai số trực giao đo lường mức độ “không trực giao” của cơ sở mạng. Sai số càng nhỏ, mạng càng gần với cấu trúc trực giao lý tưởng và cơ sở trực giao giúp đơn giản hóa việc tìm vector ngắn nhất và tìm vector gần nhất trong mạn. Thuật toán Babai là một phương pháp giải CVP gần đúng hiệu quả với các cơ sở gần trực giao (sai số trực giao nhỏ).
+
+**LLL Algorithm- Lattice Basis Reduction**
+- Thuật toán LLL (Lenstra-Lenstra-Lovász) là một thuật toán được sử dụng để tìm cơ sở giảm LLL (cơ sở LLL-reduced) cho một mạng.
+- Cho một mạng $\mathbb{L}$ thuộc $\mathbb{Z^n}$ (tức là mạng có các vector với tất cả các thành phần là số nguyên) và một cơ sở $B$ của mạng đó. Theo định lý, có thể tìm được cơ sở giảm LLL của mạng $\mathbb{L}$ trong thời gian đa thức phụ thuộc vào kích thước mạng $n$ và logarit của giá trị tuyệt đối của độ dài vector lớn nhất trong cơ sở B (ký hiệu là $max_{v_i∈B}∥v_i∥$).
+- Cơ sở LLL là một cơ sở đặc biệt của mạng thỏa mãn các điều kiện sau:
