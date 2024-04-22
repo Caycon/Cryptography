@@ -75,3 +75,12 @@ $$
 - Thuật toán LLL (Lenstra-Lenstra-Lovász) là một thuật toán được sử dụng để tìm cơ sở giảm LLL (cơ sở LLL-reduced) cho một mạng.
 - Cho một mạng $\mathbb{L}$ thuộc $\mathbb{Z^n}$ (tức là mạng có các vector với tất cả các thành phần là số nguyên) và một cơ sở $B$ của mạng đó. Theo định lý, có thể tìm được cơ sở giảm LLL của mạng $\mathbb{L}$ trong thời gian đa thức phụ thuộc vào kích thước mạng $n$ và logarit của giá trị tuyệt đối của độ dài vector lớn nhất trong cơ sở B (ký hiệu là $max_{v_i∈B}∥v_i∥$).
 - Cơ sở LLL là một cơ sở đặc biệt của mạng thỏa mãn các điều kiện sau:
+- Tính ngắn: Độ dài của vector ngắn nhất trong cơ sở LLL luôn nhỏ hơn hoặc bằng độ dài của vector ngắn nhất trong bất kỳ cơ sở nào khác của mạng.
+    - Tính gần trực giao: Các vector trong cơ sở LLL gần như trực giao với nhau.
+    - Tính hiệu quả: Thuật toán LLL có thể tìm được cơ sở LLL trong thời gian đa thức phụ thuộc vào kích thước của mạng.
+- Mô tả:
+    - Đầu vào:
+        - Một mạng L được biểu diễn bởi một cơ sở $B= {v_1, v_2, ..., v_n}.$
+        - Một tham số $δ$ (thường được chọn là 0.75).
+    - Đầu ra:
+        - Một cơ sở LLL $B'= {v_1', v_2', ..., v_n'}$ của mạng $\mathbb{L}$.
