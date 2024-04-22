@@ -51,3 +51,11 @@ $$
 - Nói cách khác:
     - Định thức của một mạng được coi như thể tích của khối song song được tạo bởi các vectơ cơ sở. Do đó, tích các độ dài của các vectơ cơ sở sẽ là một ước tính thô cho thể tích này.
     - Điều kiện vuông góc đảm bảo các vectơ cơ sở không "bù trừ" thể tích cho nhau, dẫn đến việc tích các độ dài bằng chính thể tích của khối song song, đạt được dấu bằng.
+**Orthogonality Defect (Sai số trực giao):**
+- Xác định sai số trực giao của cơ sở $B$ của lattice $\mathcal{L}(B)$ là $\delta(B)=\frac{\prod_{i=1}^n \|v_i\|}{|\det \mathcal{L}|}$.
+- Ta luôn có tính chất sau: $\delta(B)\geq 1$ (theo Bất đẳng thức Hadamard). Cơ sở được gọi là không trực giao khi $\delta(B)$ rất lớn.
+- Sai số trực giao đo lường mức độ không trực giao của một cơ sở. Giá trị càng gần 1, cơ sở càng gần trực giao.
+- Bất đẳng thức Hadamard đảm bảo rằng tích các độ dài của vectơ cơ sở luôn lớn hơn hoặc bằng định thức tuyệt đối của mạng.
+- Khi các vectơ cơ sở không trực giao hoàn toàn, chúng sẽ "chiếm nhiều thể tích" hơn so với trường hợp trực giao. Điều này dẫn đến việc δ(B) lớn hơn đáng kể so với 1.
+- Sai số trực giao và vector ngắn nhất:
+    - Ta khẳng định rằng mọi mạng đều có cơ sở với sai số trực giao giới hạn bởi một hằng số phụ thuộc vào kích thước của mạng.
