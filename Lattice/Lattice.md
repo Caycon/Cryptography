@@ -64,3 +64,9 @@ $$
 - Sai số trực giao và tìm vector gần nhất:
     - Bài toán tìm vector gần nhất (CVP), yêu cầu tìm một vector trong mạng gần nhất với một vector khác bên ngoài mạng.
     - Đoạn văn đưa ra thuật toán Babai như một cách giải CVP gần đúng khi sai số trực giao của cơ sở nhỏ (gần với 1). Thuật toán hoạt động bằng cách tính toán tổ hợp tuyến tính của các vector cơ sở với các hệ số là số nguyên gần nhất với các giá trị thực.
+ - Lý trực quan: Khi sai số trực giao nhỏ, các vector cơ sở gần với trực giao. Điều này giúp việc tính toán tổ hợp tuyến tính gần với phép chiếu vector ngoài mạng lên không gian do các vector cơ sở tạo ra.
+- Hạn chế và các phương pháp khác:
+    - Thuật toán Babai không hiệu quả với các cơ sở có sai số trực giao lớn.
+    - Mặc dù thuật toán Babai đơn giản, việc phân tích chính xác trường hợp nào thuật toán hoạt động và trường hợp nào không hoạt động lại là vấn đề khó.
+    - Đoạn văn kết thúc bằng việc gợi ý về các phương pháp tốt hơn để giải các bài toán tìm vector gần nhất xấp xỉ (apprSVP) và tìm vector ngắn nhất xấp xỉ (apprCVP).
+- Nói chung sai số trực giao đo lường mức độ “không trực giao” của cơ sở mạng. Sai số càng nhỏ, mạng càng gần với cấu trúc trực giao lý tưởng và cơ sở trực giao giúp đơn giản hóa việc tìm vector ngắn nhất và tìm vector gần nhất trong mạn. Thuật toán Babai là một phương pháp giải CVP gần đúng hiệu quả với các cơ sở gần trực giao (sai số trực giao nhỏ).
