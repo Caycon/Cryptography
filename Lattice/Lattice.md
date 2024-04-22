@@ -59,3 +59,8 @@ $$
 - Khi các vectơ cơ sở không trực giao hoàn toàn, chúng sẽ "chiếm nhiều thể tích" hơn so với trường hợp trực giao. Điều này dẫn đến việc δ(B) lớn hơn đáng kể so với 1.
 - Sai số trực giao và vector ngắn nhất:
     - Ta khẳng định rằng mọi mạng đều có cơ sở với sai số trực giao giới hạn bởi một hằng số phụ thuộc vào kích thước của mạng.
+- Nếu cơ sở là trực giao hoàn toàn (tức là sai số trực giao bằng 1), thì vector ngắn nhất trong mạng chính bằng vector ngắn nhất trong cơ sở đó.
+    - Lý do: Khi tính độ dài của tổ hợp tuyến tính ($c_1v_1+c_2v_2+...c_nv_n$ với $c_i$ là các số nguyên), các tính chất của phép cộng và tích vô hướng đảm bảo phép tính trở thành tổng bình phương của độ dài các vector riêng biệt, phụ thuộc vào các hệ số $c_i$. Do đó, vector có độ dài nhỏ nhất trong cơ sở sẽ tương ứng với vector có độ dài nhỏ nhất của tổ hợp tuyến tính.
+- Sai số trực giao và tìm vector gần nhất:
+    - Bài toán tìm vector gần nhất (CVP), yêu cầu tìm một vector trong mạng gần nhất với một vector khác bên ngoài mạng.
+    - Đoạn văn đưa ra thuật toán Babai như một cách giải CVP gần đúng khi sai số trực giao của cơ sở nhỏ (gần với 1). Thuật toán hoạt động bằng cách tính toán tổ hợp tuyến tính của các vector cơ sở với các hệ số là số nguyên gần nhất với các giá trị thực.
