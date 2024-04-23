@@ -84,3 +84,9 @@ $$
         - Một tham số $δ$ (thường được chọn là 0.75).
     - Đầu ra:
         - Một cơ sở LLL $B'= {v_1', v_2', ..., v_n'}$ của mạng $\mathbb{L}$.
+- Cách thức hoạt động:
+    - Xét cơ sở $B$. Chọn một cặp vector $v_i; v_j$.
+    - Nếu $v_i; v_j$ không gần trực giao, thực hiện phép biến đổi Gram-Schmidt để làm cho chúng gần trực giao hơn.
+    - Nếu độ dài của vector $v_i+ v_j$ nhỏ hơn độ dài của vector $v_i$, thay $v_i$ bằng $v_i+ v_j$.
+    -  Lặp lại bước 2 cho đến khi không còn cặp vector nào trong cơ sở không gần trực giao.
+-  Lưu ý:
