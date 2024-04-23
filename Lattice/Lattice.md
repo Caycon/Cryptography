@@ -100,3 +100,14 @@ $$
             - Giảm kích thước (Size-reduced): $\lvert\mu_{i,j}\rvert\leq\frac{1}{2}$. Trong đó $\mu_{i,j}$ là hệ số Gram-Schmidt giữa $v_ii;v_j$ (đo lường mức độ “không trực giao” giữa hai vector).
             - Điều kiện Lovász: $\delta\|v_{k-1}^*\|^2\leq \|v_k^*\|^2 + \mu_{k,k-1}^2\|v_{k-1}^*\|^2$. Hoặc có thể viết thành $|v_k^*|^2 \geq (1 - \mu_{k,k-1}^2) \delta |v_{k-1}^*|^2$.
     - Định lý:
+- Giả sử $B=\{v_1,\cdots,v_n\}$ là một cơ sở giảm LLL của lattice $\mathcal{L}$. Khi đó, ta có các tính chất sau:
+> 1.Giới hạn tích độ dài vector: $\prod_{i=1}^n\|v_i\|\leq 2^{\frac{n-1}{4}}\det\mathcal{L}$.
+
+> 2.Giới hạn độ dài vector theo thứ tự: $||v_j\|\leq 2^{\frac{i-1}{2}}\|v_i^*\|\text{ for all }1\leq j\leq i\leq n$.
+> - Lưu ý: $v_i^*$ là vector thu được sau khi áp dụng bước Gram-Schmidt thứ $i$ lên $v_i$ (thường không thuộc mạng $\mathbb{L}$).
+
+> 3.Giới hạn độ dài vector đầu tiên: $||v_1\|\leq 2^{\frac{n-1}{4}}(\det\mathcal{L})^{\frac{1}{n}}$
+
+> 4.Giới hạn độ dài vector đầu tiên theo vector ngắn nhất: $||v_1\|\leq 2^{\frac{n-1}{2}}\lambda(\mathcal{L})$.
+> - Trong đó $\det(\mathbb{L})$ là định thức của lattice $\mathbb{L}$ (liên quan đến thể tích của khối song song được tạo bởi các vector cơ sở).
+> - $\lambda(\mathbb{L})$ là độ dài vector ngắn nhất trong lattice $\mathbb{L}$.
