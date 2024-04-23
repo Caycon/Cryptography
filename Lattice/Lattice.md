@@ -24,6 +24,7 @@ b_{n1} & b_{n2} & \cdots & b_{nn}
 \end{pmatrix}
 \end{align*}
 $$
+
 **Ma trận unimodular:**
 - Ma trận unimodular là ma trận có định thức bằng ±1.
 - Nếu hai cơ sở B và C tạo ra cùng một mạng L, thì ma trận tương ứng của chúng được liên hệ bởi phép nhân với một ma trận unimodular U.
@@ -51,6 +52,7 @@ $$
 - Nói cách khác:
     - Định thức của một mạng được coi như thể tích của khối song song được tạo bởi các vectơ cơ sở. Do đó, tích các độ dài của các vectơ cơ sở sẽ là một ước tính thô cho thể tích này.
     - Điều kiện vuông góc đảm bảo các vectơ cơ sở không "bù trừ" thể tích cho nhau, dẫn đến việc tích các độ dài bằng chính thể tích của khối song song, đạt được dấu bằng.
+
 **Orthogonality Defect (Sai số trực giao):**
 - Xác định sai số trực giao của cơ sở $B$ của lattice $\mathcal{L}(B)$ là $\delta(B)=\frac{\prod_{i=1}^n \|v_i\|}{|\det \mathcal{L}|}$.
 - Ta luôn có tính chất sau: $\delta(B)\geq 1$ (theo Bất đẳng thức Hadamard). Cơ sở được gọi là không trực giao khi $\delta(B)$ rất lớn.
@@ -59,12 +61,12 @@ $$
 - Khi các vectơ cơ sở không trực giao hoàn toàn, chúng sẽ "chiếm nhiều thể tích" hơn so với trường hợp trực giao. Điều này dẫn đến việc δ(B) lớn hơn đáng kể so với 1.
 - Sai số trực giao và vector ngắn nhất:
     - Ta khẳng định rằng mọi mạng đều có cơ sở với sai số trực giao giới hạn bởi một hằng số phụ thuộc vào kích thước của mạng.
-- Nếu cơ sở là trực giao hoàn toàn (tức là sai số trực giao bằng 1), thì vector ngắn nhất trong mạng chính bằng vector ngắn nhất trong cơ sở đó.
+    - Nếu cơ sở là trực giao hoàn toàn (tức là sai số trực giao bằng 1), thì vector ngắn nhất trong mạng chính bằng vector ngắn nhất trong cơ sở đó.
     - Lý do: Khi tính độ dài của tổ hợp tuyến tính ($c_1v_1+c_2v_2+...c_nv_n$ với $c_i$ là các số nguyên), các tính chất của phép cộng và tích vô hướng đảm bảo phép tính trở thành tổng bình phương của độ dài các vector riêng biệt, phụ thuộc vào các hệ số $c_i$. Do đó, vector có độ dài nhỏ nhất trong cơ sở sẽ tương ứng với vector có độ dài nhỏ nhất của tổ hợp tuyến tính.
 - Sai số trực giao và tìm vector gần nhất:
     - Bài toán tìm vector gần nhất (CVP), yêu cầu tìm một vector trong mạng gần nhất với một vector khác bên ngoài mạng.
     - Đoạn văn đưa ra thuật toán Babai như một cách giải CVP gần đúng khi sai số trực giao của cơ sở nhỏ (gần với 1). Thuật toán hoạt động bằng cách tính toán tổ hợp tuyến tính của các vector cơ sở với các hệ số là số nguyên gần nhất với các giá trị thực.
- - Lý trực quan: Khi sai số trực giao nhỏ, các vector cơ sở gần với trực giao. Điều này giúp việc tính toán tổ hợp tuyến tính gần với phép chiếu vector ngoài mạng lên không gian do các vector cơ sở tạo ra.
+    - Lý trực quan: Khi sai số trực giao nhỏ, các vector cơ sở gần với trực giao. Điều này giúp việc tính toán tổ hợp tuyến tính gần với phép chiếu vector ngoài mạng lên không gian do các vector cơ sở tạo ra.
 - Hạn chế và các phương pháp khác:
     - Thuật toán Babai không hiệu quả với các cơ sở có sai số trực giao lớn.
     - Mặc dù thuật toán Babai đơn giản, việc phân tích chính xác trường hợp nào thuật toán hoạt động và trường hợp nào không hoạt động lại là vấn đề khó.
@@ -75,7 +77,7 @@ $$
 - Thuật toán LLL (Lenstra-Lenstra-Lovász) là một thuật toán được sử dụng để tìm cơ sở giảm LLL (cơ sở LLL-reduced) cho một mạng.
 - Cho một mạng $\mathbb{L}$ thuộc $\mathbb{Z^n}$ (tức là mạng có các vector với tất cả các thành phần là số nguyên) và một cơ sở $B$ của mạng đó. Theo định lý, có thể tìm được cơ sở giảm LLL của mạng $\mathbb{L}$ trong thời gian đa thức phụ thuộc vào kích thước mạng $n$ và logarit của giá trị tuyệt đối của độ dài vector lớn nhất trong cơ sở B (ký hiệu là $max_{v_i∈B}∥v_i∥$).
 - Cơ sở LLL là một cơ sở đặc biệt của mạng thỏa mãn các điều kiện sau:
-- Tính ngắn: Độ dài của vector ngắn nhất trong cơ sở LLL luôn nhỏ hơn hoặc bằng độ dài của vector ngắn nhất trong bất kỳ cơ sở nào khác của mạng.
+    - Tính ngắn: Độ dài của vector ngắn nhất trong cơ sở LLL luôn nhỏ hơn hoặc bằng độ dài của vector ngắn nhất trong bất kỳ cơ sở nào khác của mạng.
     - Tính gần trực giao: Các vector trong cơ sở LLL gần như trực giao với nhau.
     - Tính hiệu quả: Thuật toán LLL có thể tìm được cơ sở LLL trong thời gian đa thức phụ thuộc vào kích thước của mạng.
 - Mô tả:
@@ -100,7 +102,7 @@ $$
             - Giảm kích thước (Size-reduced): $\lvert\mu_{i,j}\rvert\leq\frac{1}{2}$. Trong đó $\mu_{i,j}$ là hệ số Gram-Schmidt giữa $v_ii;v_j$ (đo lường mức độ “không trực giao” giữa hai vector).
             - Điều kiện Lovász: $\delta\|v_{k-1}^*\|^2\leq \|v_k^*\|^2 + \mu_{k,k-1}^2\|v_{k-1}^*\|^2$. Hoặc có thể viết thành $|v_k^*|^2 \geq (1 - \mu_{k,k-1}^2) \delta |v_{k-1}^*|^2$.
     - Định lý:
-- Giả sử $B=\{v_1,\cdots,v_n\}$ là một cơ sở giảm LLL của lattice $\mathcal{L}$. Khi đó, ta có các tính chất sau:
+        - Giả sử $B=\{v_1,\cdots,v_n\}$ là một cơ sở giảm LLL của lattice $\mathcal{L}$. Khi đó, ta có các tính chất sau:
 > 1.Giới hạn tích độ dài vector: $\prod_{i=1}^n\|v_i\|\leq 2^{\frac{n-1}{4}}\det\mathcal{L}$.
 
 > 2.Giới hạn độ dài vector theo thứ tự: $||v_j\|\leq 2^{\frac{i-1}{2}}\|v_i^*\|\text{ for all }1\leq j\leq i\leq n$.
