@@ -90,3 +90,13 @@ $$
     - Nếu độ dài của vector $v_i+ v_j$ nhỏ hơn độ dài của vector $v_i$, thay $v_i$ bằng $v_i+ v_j$.
     -  Lặp lại bước 2 cho đến khi không còn cặp vector nào trong cơ sở không gần trực giao.
 -  Lưu ý:
+    -  Thuật toán LLL không phải lúc nào cũng tìm được cơ sở LLL tối ưu.
+    - Thuật toán LLL có thể chạy chậm cho các mạng có kích thước lớn.
+- Lattice Basis Reduction
+    - Chúng ta nói một cơ sở là không trực giao khi $\delta(B)$ rất lớn. Một ý tưởng để khắc phục vấn đề trên là chuyển cơ sở thành một cơ sở tương đối trực giao.
+    - Định nghĩa: 
+        - LLL-Reduced: Giả sử $\delta=\frac{3}{4}$ và $\|\cdot\|$ là chuẩn Euclid chuẩn.
+        - Cho $B=\{v_1,\cdots,v_n\}$  là một cơ sở của lattice $\mathcal{L}$ và $B^*=\{v_1^*,\cdots,v_n^*\}$ là cơ sở trực giao của $\mathbb{R}^n$ (thông thường không phải của $\mathcal{L}$) thu được sau khi áp dụng quá trình Gram-Schmidt. Khi đó, ta nói $B$ là LLL-reduced nếu thỏa mãn cả hai điều kiện:
+            - Giảm kích thước (Size-reduced): $\lvert\mu_{i,j}\rvert\leq\frac{1}{2}$. Trong đó $\mu_{i,j}$ là hệ số Gram-Schmidt giữa $v_ii;v_j$ (đo lường mức độ “không trực giao” giữa hai vector).
+            - Điều kiện Lovász: $\delta\|v_{k-1}^*\|^2\leq \|v_k^*\|^2 + \mu_{k,k-1}^2\|v_{k-1}^*\|^2$. Hoặc có thể viết thành $|v_k^*|^2 \geq (1 - \mu_{k,k-1}^2) \delta |v_{k-1}^*|^2$.
+    - Định lý:
