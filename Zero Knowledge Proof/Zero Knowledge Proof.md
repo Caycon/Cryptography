@@ -55,11 +55,11 @@ $$output_2= output_1 +4= 10\ (2)$$
 $$<L,v>*<R,v>= <O,v>$$
 $$v= [1;x;y;output_1]$$
 - Với $(1)$:
-$$L= [0;1;0;0]// x$$
-$$R= [0;0;1;0]// y$$
-$$O= [0;0;0;1]// output_1$$ 
+$$L= [0;1;0;0]\ (x)$$
+$$R= [0;0;1;0]\ (y)$$
+$$O= [0;0;0;1]\ (output_1)$$ 
 - Với $(2)$:
-$$L= [4;0;0;1]// output_1 + 5$$
+$$L= [4;0;0;1]\ (output_1 + 5)$$
 $$R= [1;0;0;0]$$
 $$O= [10;0;0;0]$$ 
 - Dựng đa thức với Lagrange interpolation([QAP](https://www.rareskills.io/post/quadratic-arithmetic-program)):
