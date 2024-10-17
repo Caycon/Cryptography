@@ -44,3 +44,7 @@
 - **Bảo mật dữ liệu doanh nghiệp:**
     - Kiểm toán dữ liệu: ZKP có thể được sử dụng để kiểm toán dữ liệu mà không cần truy cập trực tiếp vào dữ liệu gốc, đảm bảo tính bảo mật và riêng tư.
     - Bảo vệ tài sản trí tuệ: ZKP có thể được sử dụng để chứng minh quyền sở hữu đối với các tài sản trí tuệ mà không cần tiết lộ chi tiết về tài sản đó.
+
+## Practice
+**SNARK**
+- Cho $xy+4= 10$. Ta sẽ chứng minh rằng ta biết các giá trị $x;y$.
