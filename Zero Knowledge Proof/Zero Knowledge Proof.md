@@ -86,4 +86,25 @@ $$47k+ 31$$
 - Từ đó ta có thể sử dụng zkp ở đây. Ta có thể yêu cầu người nắm bí mật cho ta biết kết quả khi ta nhân hay cộng trừ hoặc thực hiện 1 phép toán nào đó để xác minh xem người đó có thực sự nắm bí mật đó không. Tất nhiên nếu ta xác minh nhiều lần thì phải sử dụng nhiều thuận toán hay phép toán khác nhau để trang người khác tìm được quy luật của thuật toán.
 
 #### Strong Homomorphic Encryption
+- Tương tự **Homomorphic Encryption** nhưng ta kết hợp thêm modulo. Lúc này việc tìm được số bí mật trở nên khó hơn rất nhiều do có nhiều số có cùng tính chất với số bí mật
+
 #### Encrypted Polynomial
+- Xét $$p(x)= x^3- 3x^2+2x$$
+- Dựa vào **homomorphic encryption** ta không được phép lũy thừa trực tiếp, ta sẽ sử dụng các giá trị của các lũy thừa của x đã má hóa sẵn như $E(x), E(x^2), E(x^3)$ Điều này cho phép chúng ta tính toán đa thức đã mã hóa một cách gián tiếp.
+- Ví dụ, ta có thể tính toán giá trị mã hóa của đa thức như sau:
+$$E(x^3).E(x^2)^{-3}E(x)^2$$
+- Suy ra:
+$$(g^{x^3})(g^{x^2})^{-3}(g^{x^2})$$
+$$g^{x^3-3x^2+2x}$$
+- Kết quả này là giá trị đã mã hóa của đa thức $p(x)$ với x không được biết.
+- Xét một cách tổng quát ta có:
+> Verifier:
+    >- Lấy một giá trị ngẫu nhiên $s$ bí mật.
+    >- Tính toán các giá trị mã hóa của $s$ cho các lũy thừa từ $s^0$ đến $s^d$, tức $E(s^i)= g^{s^i}$.
+    >- Tính giá trị của đã thức địch $t(s) dưới dạng chưa mã hóa.
+    >- Cung cấp cho **Prover** các giá trị đã mã hóa của các lũy thừa $s$: $E(s^0), E(s^1),..., E(s^d)$.
+
+> Prover
+    >- Tính $h(x)= \frac{p(x)}{t(x)}$.
+    >- Sử dụng các giá trị đã mã hóa của $s$ để tính $E(p(s))$ và $E(h(s))$ với các hệ số $c_0, c_1,...c_n$.
+    >- Gửi $g^p$ và $g^h$.
