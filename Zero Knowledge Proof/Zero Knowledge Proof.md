@@ -49,3 +49,25 @@
 **SNARK**
 - Cho $xy+4= 10$. Ta sẽ chứng minh rằng ta biết các giá trị $x;y$.
 ![image](https://github.com/user-attachments/assets/2036be49-8285-4a1e-b414-4e4b563a8850)
+$$output_1= xy\ (1)$$
+$$output_2= output_1 +4= 10\ (2)$$
+- Ta lập được vector sau:
+$$<L,v>*<R,v>= <O,v>$$
+$$v= [1;x;y;output_1]$$
+- Với $(1)$:
+$$L= [0;1;0;0]// x$$
+$$R= [0;0;1;0]// y$$
+$$O= [0;0;0;1]// output_1$$ 
+- Với $(2)$:
+$$L= [4;0;0;1]// output_1 + 5$$
+$$R= [1;0;0;0]$$
+$$O= [10;0;0;0]$$ 
+- Dựng đa thức với Lagrange interpolation([QAP](https://www.epfl.ch/labs/anchp/wp-content/uploads/2018/05/part5-1.pdf)):
+$$L_1(x)= 4x-4$$
+$$L_2(x)=-x+2$$
+$$L_3(x)= 0$$
+$$L_4(x)= x-1$$
+- Ta có $P = L(x) * R(x) - O(x) = T(x) * H(x)$
+- Trong đó $T(x)$ được public để xác minh, $H(x)$ được người chứng minh cung cấp.
+- Người chứng minh sẽ tính toán các giá trị của các đa thức L(x), R(x), O(x) và H(x) tại một điểm x nào đó và gửi các giá trị này cho người xác minh.
+- Người xác minh sẽ kiểm tra xem phương trình trên có đúng hay không với các giá trị đã nhận được.
