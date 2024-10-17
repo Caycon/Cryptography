@@ -6,3 +6,4 @@
     - Bạn bước vào hang động từ lối vào A hoặc B, và người xác minh đứng bên ngoài và không thể thấy bạn đi vào từ lối nào.
     - Sau đó, người xác minh yêu cầu bạn đi ra từ lối A hoặc B (tùy chọn). Nếu bạn thực sự biết mật khẩu, bạn có thể đi ra từ lối mà họ yêu cầu bằng cách đi qua cánh cửa. Nếu bạn không biết mật khẩu, xác suất để bạn đoán đúng lối ra sẽ chỉ là 50%.
     - Bằng cách lặp lại quá trình này nhiều lần, người xác minh sẽ dần tin rằng bạn thực sự biết mật khẩu mà không cần phải tiết lộ nó.
+![image](https://github.com/user-attachments/assets/e2d9d294-4e5f-4422-a452-6a3226da5748)
