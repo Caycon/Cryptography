@@ -55,18 +55,13 @@ $$output_2= output_1 +4= 10\ (2)$$
 $$<L,v>*<R,v>= <O,v>$$
 $$v= [1;x;y;output_1]$$
 - Với $(1)$:
-$$L= [0;1;0;0]\ (x)$$
-$$R= [0;0;1;0]\ (y)$$
-$$O= [0;0;0;1]\ (output_1)$$ 
+$$L= [0;1;0;0]\ (x) \\ R= [0;0;1;0]\ (y)\\ O= [0;0;0;1]\ (output_1)$$ 
 - Với $(2)$:
 $$L= [4;0;0;1]\ (output_1 + 5)$$
 $$R= [1;0;0;0]$$
 $$O= [10;0;0;0]$$ 
 - Dựng đa thức với Lagrange interpolation([QAP](https://www.rareskills.io/post/quadratic-arithmetic-program)):
-$$L_1(x)= 4x-4$$
-$$L_2(x)=-x+2$$
-$$L_3(x)= 0$$
-$$L_4(x)= x-1$$
+$$L_1(x)= 4x-4\\ L_2(x)=-x+2\\ L_3(x)= 0\\ L_4(x)= x-1$$
 - Ta có $P = L(x) * R(x) - O(x) = T(x) * H(x)$
 - Trong đó $T(x)$ được public để xác minh, $H(x)$ được người chứng minh cung cấp.
 - Người chứng minh sẽ tính toán các giá trị của các đa thức L(x), R(x), O(x) và H(x) tại một điểm x nào đó và gửi các giá trị này cho người xác minh.
