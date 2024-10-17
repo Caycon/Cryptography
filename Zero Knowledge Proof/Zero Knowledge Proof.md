@@ -48,3 +48,4 @@
 ## Practice
 **SNARK**
 - Cho $xy+4= 10$. Ta sẽ chứng minh rằng ta biết các giá trị $x;y$.
+![image](https://github.com/user-attachments/assets/2036be49-8285-4a1e-b414-4e4b563a8850)
