@@ -46,7 +46,7 @@
     - Bảo vệ tài sản trí tuệ: ZKP có thể được sử dụng để chứng minh quyền sở hữu đối với các tài sản trí tuệ mà không cần tiết lộ chi tiết về tài sản đó.
 
 ## Practice
-**SNARK**
+### SNARK
 - Cho $xy+4= 10$. Ta sẽ chứng minh rằng ta biết các giá trị $x;y$.
 ![image](https://github.com/user-attachments/assets/2036be49-8285-4a1e-b414-4e4b563a8850)
 $$output_1= xy\ (1)$$
@@ -66,3 +66,24 @@ $$L_1(x)= 4x-4\\ L_2(x)=-x+2\\ L_3(x)= 0\\ L_4(x)= x-1$$
 - Trong đó $T(x)$ được public để xác minh, $H(x)$ được người chứng minh cung cấp.
 - Người chứng minh sẽ tính toán các giá trị của các đa thức L(x), R(x), O(x) và H(x) tại một điểm x nào đó và gửi các giá trị này cho người xác minh.
 - Người xác minh sẽ kiểm tra xem phương trình trên có đúng hay không với các giá trị đã nhận được.
+
+### Obscure Evaluation
+#### Homomorphic Encryption
+- **Homomorphic Encryption** cho phép mã hóa một giá trị có thể áp dụng các phép toán vào mã hóa.
+- Có nhiều cách để đạt được các thuộc tính `Homomorphic` của mã hóa. Ví dụ:
+    - Ở đây ta chọn 1 số tự nhiên là $7$ làm cơ số để mã hóa một số khác bằng cách lũy thừa. Ở đây mình lấy $4$ là số cần mã hóa. Thực tế thì có thể chọn nhiều cách mã hóa khác phức tạp hơn.
+    - Ta có: $$7^4= 2401$$ 
+    - Nếu ta lũy thừa thêm lần nữa (bên xác minh yêu cầu để xem ta có biết bí mật thực sự là gì hay không và so sánh kết quả khi lũy thừa thêm lần nữa có trùng khớp kết quả hay không). Ở đây tôi lũy thừa thêm cho $$4$: 
+    $$2401^4= 33232930569601$$
+    - Tuy nhiên thì cơ số là phần public nên rất dễ để có thể tìm ra số bí mật khi ta xác minh như trên dù ta không trực tiếp nói ra số bí mật để xác minh.
+
+#### Modular Arithmetic
+- Phần này thì mng hãy tưởng tượng số bí mật của mng là một số lớn hơn rất nhiều so với modulo mà các bạn xét.
+- Giả dụ như số bí mật của các bạn là $407$, modulo của bạn là $47$.
+$$407 \equiv 31 mod(47)$$
+- Lúc này vì không biết kích thước của số bí mật nên ta sẽ thu được 1 tập gồm các số có dạng số bí mật:
+$$47k+ 31$$
+- Từ đó ta có thể sử dụng zkp ở đây. Ta có thể yêu cầu người nắm bí mật cho ta biết kết quả khi ta nhân hay cộng trừ hoặc thực hiện 1 phép toán nào đó để xác minh xem người đó có thực sự nắm bí mật đó không. Tất nhiên nếu ta xác minh nhiều lần thì phải sử dụng nhiều thuận toán hay phép toán khác nhau để trang người khác tìm được quy luật của thuật toán.
+
+#### Strong Homomorphic Encryption
+#### Encrypted Polynomial
