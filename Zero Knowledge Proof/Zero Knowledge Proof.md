@@ -7,3 +7,40 @@
     - Sau đó, người xác minh yêu cầu bạn đi ra từ lối A hoặc B (tùy chọn). Nếu bạn thực sự biết mật khẩu, bạn có thể đi ra từ lối mà họ yêu cầu bằng cách đi qua cánh cửa. Nếu bạn không biết mật khẩu, xác suất để bạn đoán đúng lối ra sẽ chỉ là 50%.
     - Bằng cách lặp lại quá trình này nhiều lần, người xác minh sẽ dần tin rằng bạn thực sự biết mật khẩu mà không cần phải tiết lộ nó.
 ![image](https://github.com/user-attachments/assets/e2d9d294-4e5f-4422-a452-6a3226da5748)
+- Một số ZKP thường thấy như:
+    - **Interactive ZKP:**
+        - **Sigma protocol.**
+    - **Non-interactive ZKP:**
+        - **ZK-SNARK:** Zero-Knowledge Succinct Non-Interactive Argument of Knowledge.
+        - **ZK-STARK:** Zero-Knowledge Scalable Transparent Argument of Knowledge.
+
+| Loại ZKP | Tính tương tác | Kích thước bằng chứng | Thời gian xác minh | Giả định về tính toán | Ứng dụng điển hình |
+|---|---|---|---|---|---|
+| **ZK-SNARK** | Không tương tác | Nhỏ gọn | Nhanh | Có (giả định về hàm băm) | Blockchain, xác thực danh tính |
+| **ZK-STARK** | Không tương tác | Lớn hơn SNARK | Chậm hơn SNARK | Không có | Blockchain, xác thực tính toàn vẹn dữ liệu |
+| **Sigma protocol** | Tương tác | Trung bình | Trung bình | Không có | Nền tảng cho các ZKP phức tạp hơn |
+## Cách thức hoạt động
+- **ZKP** hoạt động dựa trên một giao thức mật mã đặc biệt, cho phép một bên (người chứng minh) thuyết phục bên còn lại (người xác minh) về tính đúng đắn của một tuyên bố mà không cần tiết lộ bất kỳ thông tin cụ thể nào.
+- Nguyên tắc hoạt động chung của ZKP:
+    - Tạo một câu đố: Người chứng minh tạo ra một câu đố toán học phức tạp liên quan đến thông tin mà họ muốn chứng minh.
+    - Giải câu đố: Người chứng minh giải câu đố và chứng minh rằng họ có giải pháp.
+    - Xác minh: Người xác minh kiểm tra xem lời giải của người chứng minh có đúng hay không, nhưng không cần biết chi tiết về cách giải.
+
+| Ưu điểm của ZKP | Nhược điểm của ZKP |
+|---|---|
+| **Bảo mật cao:** Bảo vệ thông tin cá nhân và dữ liệu nhạy cảm hiệu quả. | **Độ phức tạp:** Các thuật toán ZKP thường rất phức tạp và khó triển khai. |
+| **Quyền riêng tư:** Cho phép xác thực thông tin mà không tiết lộ dữ liệu gốc. | **Hiệu năng:** Việc tạo và xác minh bằng chứng ZKP có thể tiêu tốn nhiều tài nguyên tính toán. |
+| **Tăng cường tin tưởng:** Tạo sự tin tưởng giữa các bên tham gia giao dịch. | **Tính tương thích:** Khó tích hợp ZKP vào các hệ thống hiện có. |
+| **Khả năng mở rộng:** Có thể sử dụng để mở rộng quy mô của các hệ thống blockchain. | **Tiêu chuẩn hóa:** Chưa có tiêu chuẩn chung cho ZKP. |
+| **Ứng dụng đa dạng:** Có thể áp dụng trong nhiều lĩnh vực khác nhau. | **Mối đe dọa an ninh:** Có thể bị tấn công nếu không được thiết kế và triển khai đúng cách. |
+## Ứng dụng
+- **Blockchain và tiền điện tử:**
+    - Giao dịch ẩn danh: ZKP cho phép thực hiện các giao dịch trên blockchain mà không tiết lộ thông tin về người gửi và người nhận, bảo vệ quyền riêng tư.
+    - Xác minh tuổi: ZKP có thể được sử dụng để xác minh tuổi của người dùng mà không cần tiết lộ ngày sinh cụ thể.
+    - Mở rộng quy mô: Các giải pháp ZK-Rollups sử dụng ZKP để tăng khả năng xử lý giao dịch của blockchain, giảm phí giao dịch và cải thiện hiệu suất.
+- **Xác thực danh tính:**
+    - Đăng nhập không mật khẩu: ZKP cho phép người dùng đăng nhập vào các dịch vụ trực tuyến mà không cần nhập mật khẩu, tăng cường bảo mật.
+    - Xác minh tài liệu: ZKP có thể được sử dụng để xác minh tính xác thực của các tài liệu như bằng lái xe, hộ chiếu mà không cần chia sẻ toàn bộ thông tin.
+- **Bảo mật dữ liệu doanh nghiệp:**
+    - Kiểm toán dữ liệu: ZKP có thể được sử dụng để kiểm toán dữ liệu mà không cần truy cập trực tiếp vào dữ liệu gốc, đảm bảo tính bảo mật và riêng tư.
+    - Bảo vệ tài sản trí tuệ: ZKP có thể được sử dụng để chứng minh quyền sở hữu đối với các tài sản trí tuệ mà không cần tiết lộ chi tiết về tài sản đó.
