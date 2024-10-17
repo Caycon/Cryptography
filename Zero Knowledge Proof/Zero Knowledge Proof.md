@@ -62,7 +62,7 @@ $$O= [0;0;0;1]// output_1$$
 $$L= [4;0;0;1]// output_1 + 5$$
 $$R= [1;0;0;0]$$
 $$O= [10;0;0;0]$$ 
-- Dựng đa thức với Lagrange interpolation([QAP](https://www.epfl.ch/labs/anchp/wp-content/uploads/2018/05/part5-1.pdf)):
+- Dựng đa thức với Lagrange interpolation([QAP](https://www.rareskills.io/post/quadratic-arithmetic-program)):
 $$L_1(x)= 4x-4$$
 $$L_2(x)=-x+2$$
 $$L_3(x)= 0$$
