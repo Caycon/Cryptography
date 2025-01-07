@@ -60,6 +60,4 @@ ECDSA hoạt động dựa trên các phép toán trên đường cong elliptic 
    - $(v = x_2 \mod n)$.
 3. Chữ ký hợp lệ nếu $(v = r)$.
 
----
-
-![alt text](image.png)
+---x    
