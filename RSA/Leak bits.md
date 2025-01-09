@@ -6,4 +6,5 @@
 ### Padding
 #### Kịch bản
 - Với case này **plaintext** đã được pad 1 số bytes vào. Tuy nhiên lại cho ta biết các bytes đó nằm ở vị trí như thế nào hoặc không (lúc này ta có thể brute force).
-- Cụ thể thì case này cho ta giá trị của $c$, $n$, $e \ (small)$.
+- Cụ thể thì case này cho ta giá trị của $c$, $n$, $e \ (small)$, $a$ (chuỗi được pad vào **plantext**), vị trí **plaintext** khi pad hoặc không:))).
+#### Solution 
