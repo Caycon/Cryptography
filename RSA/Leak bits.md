@@ -10,7 +10,9 @@
 
 - Với case này **plaintext** đã được pad 1 số bytes vào. Tuy nhiên lại cho ta biết các bytes đó nằm ở vị trí như thế nào hoặc không (lúc này ta có thể brute force).
 - Cụ thể thì case này cho ta giá trị của $c$, $n$, $e \ (small)$, $a$ (chuỗi được pad vào **plantext**), vị trí **plaintext** khi pad hoặc không:))).
+
 **Demo:**
+
 `chall.py`
 ```python
 from Crypto.Util.number import *
@@ -27,7 +29,9 @@ print(f'n= {n}')
 print(f'c= {c}')
 # flag= b'crypto is cry'
 ```
-```output.txt
+
+`output.txt`
+```text
 n= 154650126490910825870431824934576182333068222671724410440155023178036767655133979421221274290173069244049735304064481949737997738636139682820002608333682194079520003991577040792761175190838968676570220075436336115063486472047547672850240504644724237622681051226475298641021460465693591328198884643113299290547
 c= 42283915594501344485267248623513200233446094470736705697443007113321626680426285450382367899651284974513612737494846341451839719107790834231527235849133044523610427579413634210403497384575053059028736898829336544509930253507823130816774793407886244665524126325815927718654844171168338168469830396958711749844
 ```
@@ -104,3 +108,57 @@ print(long_to_bytes(flag1))
 # b'if you know,\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
 ```
 - Dạng chall này có thể biến đổi bằng cách sử dụng random để tùy biến ẩn đi số bytes padding hoặc vị trí của flag. Từ đó ta phải brute force hoặc làm gì đó (ai biết ddoouu:)))
+
+### Leak consecutive bits
+- Nghe có vẻ giống phần trên tuy nhiên phần này thì ta sẽ làm việc với $p, q$ thay vì trực tiếp với $m$ như ở trên.
+#### Kịch bản
+- Với case này thì chall sẽ leak cho ta 1 phần của $p$, $q$ hoặc $p+ q$,... rất nhiều trường tuy nhiên đại khái là sẽ leak cho ta **1 phần bits liên tiếp** của 1 thứ gì đó liên quan đến **private key**.
+
+![image](https://github.com/user-attachments/assets/15969f4a-31e4-4523-a936-d5c9b036a720)
+
+- Ở đây thì mình sẽ triển khai và demo thử với trường hợp bị leak 1 phần bits liên tiếp của $p$.
+- Cụ thể thì với case này ta sẽ cần ít nhất là $p^{\frac{1}{3}}$ bits liên tiếp bị leak để có thể giải được một cách nhanh chóng, việc biết ít hơn $p^{\frac{1}{3}}$ bits có thể khiến ta không giải được hoặc mất thời gian lâu hơn để có thể giải.
+- Demo dưới đây sẽ là về **MSBs** của p
+
+**Demo**
+
+`chall.py`
+```python
+from Crypto.Util.number import *
+
+flag= b'guess me if you can!'
+p = getPrime(512)
+q = getPrime(512)
+n = p*q
+e= 65537
+m= bytes_to_long(flag)
+c= pow(m,e,n)
+leaked_bits = p // (2**332) # or p >> 332
+print(f'{n= }')
+print(f'{e= }')
+print(f'{c= }')
+print(f'{leaked_bits= }')
+# flag= b'Fake flag is real!!!'
+```
+
+`output.txt`
+```text
+n= 93263616157944058919846875466463090347899581927286723198825712303056123994104256872626205207965279457895808523638110948705977482041823584624522750931053653438999108145768784132338850701480328832257300425323448707035377867599405544355444911534470929526537809426991371877343290758765806901686459560093815787103
+e= 65537
+c= 90481003794365648689758133455679717012432939144766066412662619511781676510905016286093368716282389140821108056041040647090374833396303316827728871216587049143080339464044326686964337441664883102549647376405803297151229619882338062911783408571704214501758247375464168441204498042577637077318631684166194040034
+leaked_bits= 1317328585270738972473204167120977515658982227620979057
+```
+
+#### Solution
+- Từ code ta có thể biết được private key cụ thể là $p$ đã bị leak 180 bits đầu.
+```python
+leaked_bits= 1317328585270738972473204167120977515658982227620979057
+bin_leak= bin(leaked_bits)
+print(f'{bin_leak= }')
+p_real= str(bin(leaked_bits)) + 'x'*332
+print(f'{p_real= }')
+
+# bin_leak= '0b110111000000111010001100101101110001101000100101111001001110000110001010000010100010101110000000110100111100010110110100110001001000110100010110110001100101011100001110000101110001'
+# p_real= '0b110111000000111010001100101101110001101000100101111001001110000110001010000010100010101110000000110100111100010110110100110001001000110100010110110001100101011100001110000101110001xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+```
+- Trực qua thì ta có như trên, giờ vấn đề là làm các nào để ta có thể tìm lại $p$ để giải.
