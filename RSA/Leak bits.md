@@ -162,3 +162,5 @@ print(f'{p_real= }')
 # p_real= '0b110111000000111010001100101101110001101000100101111001001110000110001010000010100010101110000000110100111100010110110100110001001000110100010110110001100101011100001110000101110001xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 ```
 - Trực qua thì ta có như trên, giờ vấn đề là làm các nào để ta có thể tìm lại $p$ để giải.
+- Từ đây ta có được: $p= leak+ x$ với $x$ là phần chưa biết cần tìm. Mặt khác ta có $pq=n$.
+- Hay $r*q \equiv -leak*q \mod n$
