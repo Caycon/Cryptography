@@ -202,4 +202,7 @@ m= pow(c, d, n)
 print(long_to_bytes(m))
 ```
 - Tùy vào việc chọn vector mà bài toán có thể được giải quyết nhanh hay chậm. Tuy nhiên việc chọn được vector sẽ cần khá nhiều kỹ năng và việc ước lượng để có chọn được vector sao cho có thể tìm được nghiệm là một vấn đề rất quan trọng.
-- Lý do tại sao ở đây mình đề cập đến việc phải leak ít nhất $p^{\frac{2}{3}}$ 
+- Lý do tại sao ở đây mình đề cập đến việc phải leak ít nhất $p^{\frac{2}{3}}$ là để đảm bảo ma trận 3x3 hoạt động được.
+- Thực tế nếu chỉ có khoảng $p^{\frac{1}{3}}$ bits bị leak thì ta cũng có recover private key được, tuy nhiên lúc đó ta phải mở rộng đa thức cũng như ma trận, đồng thời xây dựng các vector phức tạp hơn.
+
+**Lý do chi tiết hơn thì tham khảo [ở đây](https://cr.yp.to/bib/1998/howgrave-graham.pdf)**
