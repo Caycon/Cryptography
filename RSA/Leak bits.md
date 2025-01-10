@@ -110,8 +110,10 @@ print(long_to_bytes(flag1))
 - Dạng chall này có thể biến đổi bằng cách sử dụng random để tùy biến ẩn đi số bytes padding hoặc vị trí của flag. Từ đó ta phải brute force hoặc làm gì đó (ai biết ddoouu:)))
 
 ### Leak consecutive bits
-- Nghe có vẻ giống phần trên tuy nhiên phần này thì ta sẽ làm việc với $p, q$ thay vì trực tiếp với $m$ như ở trên.
-#### Kịch bản
+- Nghe có vẻ giống phần trên tuy nhiên phần này thì mình sẽ chỉ thực hiện với $p, q$ thay vì trực tiếp với $m$ như ở trên.
+#### MSBs- LSBs
+- Mình chỉ demo nhỏ về **MSBs** còn về **LSBs** thì cũng sẽ khá tương tự.
+##### Kịch bản
 - Với case này thì chall sẽ leak cho ta 1 phần của $p$, $q$ hoặc $p+ q$,... rất nhiều trường tuy nhiên đại khái là sẽ leak cho ta **1 phần bits liên tiếp** của 1 thứ gì đó liên quan đến **private key**.
 
 ![image](https://github.com/user-attachments/assets/15969f4a-31e4-4523-a936-d5c9b036a720)
@@ -149,7 +151,7 @@ c= 86806010536421428215138479024493529957254730212140712219406478401080347255310
 leaked_bits= 8519065679210462875347890550002311295807311144091750402590996981174033798178225468961955441999549942033
 ```
 
-#### Solution
+##### Solution
 - Từ code ta có thể biết được private key cụ thể là $p$ đã bị leak 342 bits đầu.
 ```python
 leaked_bits= 8519065679210462875347890550002311295807311144091750402590996981174033798178225468961955441999549942033
@@ -206,3 +208,12 @@ print(long_to_bytes(m))
 - Thực tế nếu chỉ có khoảng $p^{\frac{1}{3}}$ bits bị leak thì ta cũng có recover private key được, tuy nhiên lúc đó ta phải mở rộng đa thức cũng như ma trận, đồng thời xây dựng các vector phức tạp hơn.
 
 **Lý do chi tiết hơn thì tham khảo [ở đây](https://cr.yp.to/bib/1998/howgrave-graham.pdf)**
+
+- Về phần **LSBs** thì ta sẽ xây dựng các đa thức cx như vector khác đi 1 chút
+
+![image](https://github.com/user-attachments/assets/9d193ae1-53bf-4062-9b00-7fae4b777768)
+- Ta sẽ xây dựng $f(x)$ có dạng $f(x)= 2^l*x+ leak$ với $l$ là số bits cần tìm.
+
+#### Leak bits in mid
+![image](https://github.com/user-attachments/assets/61c2a3b9-dbb7-4419-aaab-8edfd2795ab4)
+- Với dạng này thì sẽ khó hơn **MSBs hay LSBs**
