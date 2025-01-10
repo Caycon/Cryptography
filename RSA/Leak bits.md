@@ -201,4 +201,5 @@ d= pow(e, -1, phi)
 m= pow(c, d, n)
 print(long_to_bytes(m))
 ```
-- Tùy vào 
+- Tùy vào việc chọn vector mà bài toán có thể được giải quyết nhanh hay chậm. Tuy nhiên việc chọn được vector sẽ cần khá nhiều kỹ năng và việc ước lượng để có chọn được vector sao cho có thể tìm được nghiệm là một vấn đề rất quan trọng.
+- Lý do tại sao ở đây mình đề cập đến việc phải leak ít nhất $p^{\frac{2}{3}}$ 
