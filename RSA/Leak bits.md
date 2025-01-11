@@ -206,6 +206,28 @@ print(long_to_bytes(m))
 - Tùy vào việc chọn vector mà bài toán có thể được giải quyết nhanh hay chậm. Tuy nhiên việc chọn được vector sẽ cần khá nhiều kỹ năng và việc ước lượng để có chọn được vector sao cho có thể tìm được nghiệm là một vấn đề rất quan trọng.
 - Lý do tại sao ở đây mình đề cập đến việc phải leak ít nhất $p^{\frac{2}{3}}$ là để đảm bảo ma trận 3x3 hoạt động được.
 - Thực tế nếu chỉ có khoảng $p^{\frac{1}{3}}$ bits bị leak thì ta cũng có recover private key được, tuy nhiên lúc đó ta phải mở rộng đa thức cũng như ma trận, đồng thời xây dựng các vector phức tạp hơn.
+- Ngoài cách làm trên thì mình cũng có tham khảo 1 cách làm khác từ anh Quốc đó là dùng trực tiếp hàm `small_roots()` mà không cần dựng ma trận.
+```python
+from Crypto.Util.number import *
+
+n= 89363852083183215084029975819623368020820853090098307473149845603341401045864934870570439256932632891265049547636998969703995375576460547095664091050686702009560848161533709748580943299702189297193534891972420842645361436489923822342004115286990841721297153500393107766316207595723258425173398506150683897157
+e= 65537
+c= 86806010536421428215138479024493529957254730212140712219406478401080347255310427820183046206405676261342754941707821722897347193983277842445151970816004013705244354576275846473959424227587946606819026532227502887761334668519249015633183869419896266715931667308536148698335454941446604091954057806509134160714
+leaked_bits= 8519065679210462875347890550002311295807311144091750402590996981174033798178225468961955441999549942033
+
+P.<x> = PolynomialRing(Zmod(n))
+f = x + (leaked_bits << 170)
+a= f.small_roots(X=2^172, beta = 0.2, epsilon=1/200)
+leaked_bits = bin(leaked_bits)[2:]
+leaked_bits= str(leaked_bits)+ "0"*(512-len(leaked_bits))
+leaked_bits = int(leaked_bits,2)
+p= int(leaked_bits+ a[0])
+q= n/p
+phi= (p-1)*(q-1)
+d= pow(e, -1, phi)
+m= pow(c, d, n)
+print(long_to_bytes(m))
+```
 
 **Lý do chi tiết hơn thì tham khảo [ở đây](https://cr.yp.to/bib/1998/howgrave-graham.pdf)**
 
@@ -217,4 +239,4 @@ print(long_to_bytes(m))
 #### Leak bits in mid
 ![image](https://github.com/user-attachments/assets/61c2a3b9-dbb7-4419-aaab-8edfd2795ab4)
 - Với dạng này thì sẽ khó hơn **MSBs hay LSBs**
-- Cụ thể thì phần bits bị leak sẽ là a
+- Cụ thể thì phần bits bị leak sẽ là $a$ 
