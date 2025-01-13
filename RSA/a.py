@@ -1,42 +1,51 @@
-# from Crypto.Util.number import *
+from Crypto.Util.Padding import pad, unpad
+from Crypto.Cipher import AES
+from os import urandom
+from pwn import xor, process, remote
+from base64 import b64encode, b64decode
+from tqdm import tqdm
+#io = process(['python3', 'aes-cbc.py'])
+io = remote("34.162.82.42", 5000)
 
-# n= 89363852083183215084029975819623368020820853090098307473149845603341401045864934870570439256932632891265049547636998969703995375576460547095664091050686702009560848161533709748580943299702189297193534891972420842645361436489923822342004115286990841721297153500393107766316207595723258425173398506150683897157
-# e= 65537
-# c= 86806010536421428215138479024493529957254730212140712219406478401080347255310427820183046206405676261342754941707821722897347193983277842445151970816004013705244354576275846473959424227587946606819026532227502887761334668519249015633183869419896266715931667308536148698335454941446604091954057806509134160714
-# leaked_bits= 8519065679210462875347890550002311295807311144091750402590996981174033798178225468961955441999549942033
+plaintext = b"I am an authenticated admin, please give me the flag"
+p1 = b'I am an authenti'
+p2 = b'cated admin, ple'
+p3 = b'ase give me the '
+p4 = pad(b'flag', 16)
 
-# leaked_bits = bin(leaked_bits)[2:]
-# leaked_bits= str(leaked_bits)+ "0"*(512-len(leaked_bits))
-# leaked_bits = int(leaked_bits,2)
-# r= 2**170
-# M= matrix([[r**2, r*leaked_bits, 0], [0, r, leaked_bits], [0, 0, n]])
-# A= M.LLL()
-# P.<x> = PolynomialRing(Zmod(n))
-# f = A[0][0]*x**2/r**2+A[0][1]*x/r+A[0][2]
-# f = f.monic()
-# a= f.small_roots()
-# p= int(leaked_bits+ a[0])
-# q= n/p
-# phi= (p-1)*(q-1)
-# d= pow(e, -1, phi)
-# m= pow(c, d, n)
-# print(long_to_bytes(m))
+io.recvuntil(b'Your choice: ')
+io.sendline(b'1')
+res = b64decode(io.recvline().strip().decode())
+iv = b'\0x00'*16
 
+def padding_oracle(p, block):   
+    pad =  16 * bytes([0])
+    I = [0]*16
+    c1 = b''
+    for i in range(1, 17):
+        for j in tqdm(range(1,256)):
+            io.recvuntil(b'Your choice: ')
+            io.sendline(b'2')
+            payload = pad[:16-i] + bytes([j]) + c1
+            msg = iv + payload + block
+            io.sendline(b64encode(msg).decode())
+            oracle_reply = io.recvline()
+            if b'Unknown command!' in oracle_reply:
+                I[16 - i] = j ^ i
+                c1 = xor(bytes([i+ 1])*i , bytes(I[16 - i:]))
+                break
+    return xor(p, I)
 
+c4 = urandom(16)
+c3 = padding_oracle(p4, c4)
+c2 = padding_oracle(p3, c3)
+c1 = padding_oracle(p2, c2)
+forged_iv = padding_oracle(p1, c1)
+forged_ct = c1+c2+c3+c4
 
-from Crypto.Util.number import *
+print(forged_iv, forged_ct)
 
-flag= b'guess me if you can!'
-p = getPrime(512)
-q = getPrime(512)
-n = p*q
-e= 65537
-m= bytes_to_long(flag)
-c= pow(m,e,n)
-leaked_bits = p << 300
-print(f'{n= }')
-print(f'{e= }')
-print(f'{c= }')
-print(f'{leaked_bits= }')
-print(f'{p= }')
-# flag= b'Fake flag is real!!!'
+io.recvuntil(b'Your choice: ')
+io.sendline(b'2')
+io.sendline(b64encode(forged_iv+forged_ct).decode())
+io.interactive()
