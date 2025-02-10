@@ -128,7 +128,6 @@ print('flag:', long_to_bytes(m))
 
 
 from Crypto.Util.number import *
-
 flag= b'Trieungu'
 p= getPrime(512)
 q= getPrime(512)
@@ -136,10 +135,10 @@ n= p*q
 e= 65537
 m= bytes_to_long(flag)
 c= pow(m, e, n)
-leak_p= int(bin(p)[172:472], 2)
+leak_p = int(bin(p)[2:].zfill(512)[40:465], 2) << 47
+p0_bitwise = p &((2**472)- (2**47))
 print(f'{n= }')
 print(f'{e= }')
 print(f'{c= }')
-print(f'{leak_p= }')
 print(f'{p= }')
-p0 = p&(2**(1024//2-l2)-2**l1)
+print(f'{leak_p= }')
