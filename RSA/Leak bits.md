@@ -239,4 +239,6 @@ print(long_to_bytes(m))
 #### Leak bits in mid
 ![image](https://github.com/user-attachments/assets/61c2a3b9-dbb7-4419-aaab-8edfd2795ab4)
 - Với dạng này thì sẽ khó hơn **MSBs hay LSBs**
-- Cụ thể thì phần bits bị leak sẽ là $a$ 
+- Cụ thể thì phần bits bị leak sẽ là $a$, lúc này:
+$$p= x*2**t+ y+ a$$
+- Với t là hiệu của số bits $p$ với số most bits chưa biết.
