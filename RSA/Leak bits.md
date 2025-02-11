@@ -360,13 +360,12 @@ res_y2 = H[0].resultant(H[2], x).subs(y=ys)
 poly_y = gcd(res_y1, res_y2)
 y_root = poly_y.roots()[0][0]
 
-recovered_p = a * x_root + y_root + leak_p
-recovered_q = n // recovered_p
-d = pow(e, -1, lcm(recovered_p - 1, recovered_q - 1))
+p = a * x_root + y_root + leak_p
+q = n // p
+phi= (p-1)*(q-1)
+d = pow(e, -1, phi)
 m = pow(c, d, n)
-
-
-
-print(long_to_bytes(m))
-
+print(long_to_bytes(int(m)))
 ```
+
+#### Leak bits in multiple chunks of bits of p
