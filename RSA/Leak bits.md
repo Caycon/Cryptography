@@ -289,7 +289,7 @@ print(f'{leak_p= }')
     - Mỗi đa thức $g(x, y)$ có thể được biểu diễn dưới dạng tổng các đơn thức: $$g(x, y) = \sum_{(h, i)} c_{hi} x^h y^i$$
     - Ta tạo một ma trận **M**, trong đó mỗi hàng tương ứng với một đa thức dịch chuyển $g(x, y)$, và mỗi cột ứng với một đơn thức $x^h y^i$ (theo thứ tự của danh sách các cặp số mũ đã chọn).
     - Các đa thức ban đầu có thể có các hệ số với độ lớn rất khác nhau, làm cho lattice không cân bằng, do đó ta (scale) các hệ số của các đơn thức theo hai hằng số:
-        - **scale_x**: Dùng cho các đơn thức chứa $x^h$. Ở đây, scale_x được chọn là $2^{(512-472)} = 2^{40}$.
+        - **scale_x**: Dùng cho các đơn thức chứa $x^h$. `scale_x` được chọn là $2^{(512-472)} = 2^{40}$.
         - **scale_y**: Dùng cho các đơn thức chứa $y^i$, với scale_y được chọn bằng $b = 2^{47}$.
 
 ```python

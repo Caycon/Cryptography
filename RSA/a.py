@@ -1,6 +1,3 @@
-#!/usr/bin/env sage -python
-# -*- coding: utf-8 -*-
-
 """
 CHALLENGE:
 -----------
@@ -42,11 +39,6 @@ Phương pháp tấn công:
 5. **Tính lại p và giải mã RSA:**
    Tính p = a*x + y + leak_p, từ đó tính số q = n // p. Cuối cùng, tính khóa riêng d và giải mã thông điệp.
 
-Lưu ý: Mã nguồn dưới đây sử dụng SageMath, vì vậy các hàm như PolynomialRing, Matrix, LLL, resultant, … chỉ có sẵn trong môi trường Sage.
-
----------------------------------
-Bắt đầu với mã nguồn chi tiết:
----------------------------------
 """
 
 from Crypto.Util.number import long_to_bytes, bytes_to_long
