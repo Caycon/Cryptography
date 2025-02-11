@@ -268,9 +268,29 @@ print(f'{leak_p= }')
 
 ##### Solution
 - Ý tưởng của t sẽ là xây dựng một đa thức 2 ẩn $x; y$ để biểu diễn cho $p$ và từ đó tìm $p$ thông qua $x; y$.
-- Ở đây ta có: $$f(x; y)= p= a * x + y + leak_p$$
+- Ở đây ta có: $$f(x; y)= p= ax + y + leak_p$$
 - Tiếp theo ta sẽ tạo đa thức dịch chuyển hay shifted polynomials.
 - Mục tiêu chính là xây dựng một tập hợp các đa thức có cùng nghiệm nhỏ (x, y) mà ta cần tìm, từ đó “cắt xén” (eliminate) nhiễu và thu được đa thức có hệ số nhỏ dễ xử lý hơn. Nói cách khác, ta muốn tạo ra nhiều đa thức liên quan đến ẩn số (x, y) sao cho khi thay nghiệm chính xác vào, chúng có giá trị “nhỏ” (hoặc thậm chí bằng 0 modulo một số nào đó). Điều này là tiền đề để sau đó dùng các kỹ thuật lattice, qua bước giảm LLL, tìm ra được mối quan hệ “mịn” giữa các ẩn số.
+- Xây dựng đa thức:
+    - Đa thức ban đầu: $$f(x; y)= ax + y + leak_p$$
+    với $p= ax + y + leak_p$. Do $n=pq$, nên nếu ta `scale` (nâng) hoặc `shifted` (dịch chuyển) $f(x; y)$ theo cách thích hợp, khi thay các giá trị (x, y) chính xác vào, các đa thức mới sẽ có một tính chất đặc biệt (thường là chia hết cho $𝑛$ hoặc có giá trị rất nhỏ).
+    - Nhân với các đơn thức:
+        - Trong kỹ thuật tìm nghiệm nhỏ của **Coppersmith** hay **Howgrave-Graham**, ta thường tạo ra các đa thức mới bằng cách nhân đa thức gốc với các đơn thức $x^iy^i$ (với deg của $xy$ không quá cao).
+        - Với case này các cặp số mũ được lấy theo dạng: $$(h,i) \text{với} \ h+i <= deg \ \text{(deg= 4)}$$
+    - Từ đây ta sẽ có 2 case khi tạo shifted polynomials:
+        - Case 1: Khi $h= 0$:
+            - Shifted polynomials: $$g(x; y)= nx^i.$$
+            - Lý do có $n$ ở đây là để $g(x; y) \equiv 0\ mod(n)$ và không có $y$ dù là $g(x; y)$ là để biến đa thức thành 1 biến cho dễ giải quyết:))
+        - Case 2: Khi $h> 0$:
+            - Shifted polynomials: $$g(x; y)= f(x; y).x^iy^{h-1}$$
+            - Ở đây ta nhân $f(x; y)$ với $x^iy^{h-1}$ để phân phối deg của $x; y$ trong đa thức. Khi đó đa thức mới có các bậc khác nhau của ( x ) và ( y ), từ đó xây dựng một hệ đa thức.
+            - Cách xây dựng này giúp kéo dài không gian của các đa thức mà vẫn bảo toàn tính chất: khi thay nghiệm (x, y) chính xác vào, các đa thức này có giá trị nhỏ (hoặc $ \equiv 0 \ mod(n)$)
+- Xây dựng **lattice**
+    - Mỗi đa thức $g(x, y)$ có thể được biểu diễn dưới dạng tổng các đơn thức: $$g(x, y) = \sum_{(h, i)} c_{hi} x^h y^i$$
+    - Ta tạo một ma trận **M**, trong đó mỗi hàng tương ứng với một đa thức dịch chuyển $g(x, y)$, và mỗi cột ứng với một đơn thức $x^h y^i$ (theo thứ tự của danh sách các cặp số mũ đã chọn).
+    - Các đa thức ban đầu có thể có các hệ số với độ lớn rất khác nhau, làm cho lattice không cân bằng, do đó ta (scale) các hệ số của các đơn thức theo hai hằng số:
+        - **scale_x**: Dùng cho các đơn thức chứa $x^h$. Ở đây, scale_x được chọn là $2^{(512-472)} = 2^{40}$.
+        - **scale_y**: Dùng cho các đơn thức chứa $y^i$, với scale_y được chọn bằng $b = 2^{47}$.
 
 ```python
 from Crypto.Util.number import *
