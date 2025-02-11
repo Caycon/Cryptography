@@ -299,37 +299,24 @@ n= 16758049995621595051940136495371538204642662207394544420982635514135561625328
 e= 65537
 c= 139141713394182175338014160210574677242324318147310823544533218285438453679685360942557889405708630849117917919844618438631772469175157267044325855150684069102771610083706768718034754862646137870042713558761139906496513003195874156227906594994060711022603795992594839895900529076885908269590003750247551274645
 leak_p= 11285951004747532118510977324365459146506394352712787708919871521893387325998280830757079994592547761237824232119473733009976060329355198332928
-# --- Các tham số cho phép toán đa thức và lattice ---
-# a và b dùng để biểu diễn ẩn dưới dạng: p = a * x + y + leak_p
-a = 2**(512 - 47)   # 2^(465)
-b  = 2**47           # 2^(47)
-deg = 4         # bậc tối đa dùng trong thuật toán
 
-# --- Xây dựng đa thức ban đầu ---
-# Tạo polynomial ring hai biến trên Zmod(n)
+a = 2**(512 - 47)  
+b  = 2**47      
+deg = 4        
+
 Pxy = PolynomialRing(Zmod(n), names=('x', 'y'))
 x_mod, y_mod = Pxy.gens()
 
-# Đa thức ban đầu: f(x, y) = a * x + y + leak_p
 Pol_mod = a * x_mod + y_mod + leak_p
 
-# Chuyển sang đa thức có hệ số nguyên
 Pol_int = Pol_mod.change_ring(ZZ)
 PR_int, (x, y) = Pol_int.parent().objgens()
 
-# --- Xây dựng hệ chỉ số và các đơn thức ---
-# Danh sách các cặp số mũ (h, i) với tổng bậc <= deg
 exponent_pairs = [(k - i, i) for k in range(deg + 1) for i in range(k + 1)]
-# Danh sách các đơn thức tương ứng: x^(h) * y^(i)
 monomials = [PR_int(x**h * y**i) for (h, i) in exponent_pairs]
 
-# f_poly là đa thức chuyển sang hệ số nguyên
 f_poly = Pol_int
 
-# --- Xây dựng các đa thức dịch chuyển (shifted polynomials) ---
-# Theo công thức:
-#   Nếu h == 0: g(x,y) = n * x^i
-#   Nếu h > 0:  g(x,y) = f_poly * x^i * y^(h-1)
 g_list = []
 for (h, i) in exponent_pairs:
     if h == 0:
@@ -338,75 +325,47 @@ for (h, i) in exponent_pairs:
         g_poly = f_poly * (x**i * y**(h - 1))
     g_list.append(g_poly)
 
-# --- Xây dựng ma trận lattice ---
-# Các hệ số được “nâng” lên bằng scale_x và scale_y
-scale_x = 2**(512 - 472)  # 2^(40)
-scale_y = b           # 2^(47)
+scale_x = 2**(512 - 472)  
+scale_y = b           
 m_size = len(g_list)
 
 M = Matrix(ZZ, m_size, m_size)
 for row in range(m_size):
     for col in range(m_size):
-        # Với cặp (h, i) ứng với cột col, lấy hệ số của x^h*y^i trong g_list[row]
         (h, i) = exponent_pairs[col]
         coeff = g_list[row][h, i]
         M[row, col] = coeff * (scale_x ** h) * (scale_y ** i)
 
-# --- Giảm LLL cho lattice ---
 B = M.LLL()
 
-# --- Tái tạo các đa thức “ẩn” từ cơ sở LLL ---
-H = {}  # H[i] sẽ lưu đa thức tương ứng với hàng thứ i của B
+H = {}  
 for i in range(B.nrows()):
     poly_H = PR_int(0)
     for j in range(B.ncols()):
-        # Cân bằng đơn thức bằng cách chia cho giá trị tại (scale_x, scale_y)
         poly_H += PR_int((monomials[j] * B[i, j]) / monomials[j](scale_x, scale_y))
     H[i] = poly_H
 
-# --- Tách biến: tính resultant để loại bỏ biến còn lại ---
-# Tạo 2 polynomial ring univariate mới (cho x và cho y)
 PX = PolynomialRing(ZZ, 'xs')
 xs = PX.gen()
 PY = PolynomialRing(ZZ, 'ys')
 ys = PY.gen()
 
-# Tìm đa thức theo x bằng cách loại y:
 res_x1 = H[0].resultant(H[1], y).subs(x=xs)
 res_x2 = H[0].resultant(H[2], y).subs(x=xs)
 poly_x = gcd(res_x1, res_x2)
-# Lấy nghiệm đầu tiên
 x_root = poly_x.roots()[0][0]
-# Ép x_root về kiểu số nguyên Python (nếu cần)
-try:
-    x_root = int(x_root.lift())
-except AttributeError:
-    x_root = int(x_root)
 
-# Tương tự, tìm đa thức theo y bằng cách loại x:
 res_y1 = H[0].resultant(H[1], x).subs(y=ys)
 res_y2 = H[0].resultant(H[2], x).subs(y=ys)
 poly_y = gcd(res_y1, res_y2)
 y_root = poly_y.roots()[0][0]
-# Ép y_root về kiểu số nguyên Python
-try:
-    y_root = int(y_root.lift())
-except AttributeError:
-    y_root = int(y_root)
 
-# --- Tái tạo ước số p của RSA ---
 recovered_p = a * x_root + y_root + leak_p
 recovered_q = n // recovered_p
-
-# --- Tính khóa riêng và giải mã ---
 d = pow(e, -1, lcm(recovered_p - 1, recovered_q - 1))
 m = pow(c, d, n)
 
-# Ép m về kiểu số nguyên Python (nếu cần)
-try:
-    m = int(m.lift())
-except AttributeError:
-    m = int(m)
+
 
 print(long_to_bytes(m))
 
