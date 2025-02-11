@@ -1,175 +1,197 @@
-from Crypto.Util.number import *
+#!/usr/bin/env sage -python
+# -*- coding: utf-8 -*-
 
+"""
+CHALLENGE:
+-----------
+Trong challenge này, ta có bài toán RSA với các tham số:
+    - n: module RSA, với n = p * q.
+    - e: số mũ công khai (thông thường e = 65537).
+    - c: bản mã, tính theo c = m^e mod n.
+Ngoài ra, ta có thông tin rò rỉ leak_p của số p, cụ thể leak_p chứa các bit từ vị trí 40 đến 465 của p (với p có 512 bit, 40 bit đầu và 47 bit cuối không được tiết lộ).
+
+Ý tưởng chính:
+-------------
+Vì leak_p tiết lộ phần giữa của số p, ta có thể biểu diễn p dưới dạng:
+    p = a * x + y + leak_p,
+với:
+    - a = 2^(512 - 47) = 2^465, vì 47 bit cuối không được rò rỉ.
+    - y là số nguyên nhỏ hơn b = 2^47 (tương ứng với 47 bit cuối).
+    - x là ẩn số cần tìm.
+
+Mục tiêu của ta là tìm được x và y (sau đó tính lại p), từ đó tách số q = n/p và tính khóa riêng RSA để giải mã thông điệp.
+
+Phương pháp tấn công:
+----------------------
+1. **Xây dựng đa thức ban đầu:**
+   Ta có đa thức f(x, y) = a*x + y + leak_p, được biết modulo n.
+
+2. **Tạo các đa thức dịch chuyển (shifted polynomials):**
+   Dựa trên đa thức f(x,y) ban đầu, ta xây dựng một số đa thức dịch chuyển theo dạng:
+       - Nếu h == 0: g(x,y) = n * x^i.
+       - Nếu h > 0:  g(x,y) = f(x,y) * x^i * y^(h-1).
+   Các đa thức này có mục đích tạo ra một hệ đa thức có liên hệ với x và y với các hệ số nhỏ sau khi “nâng” theo một số scale nhất định.
+
+3. **Xây dựng lattice và áp dụng LLL:**
+   Ta đưa các đa thức dịch chuyển lên một lattice bằng cách “nâng” các hệ số theo scale_x và scale_y để cân bằng độ lớn của các đơn thức.
+   Sau đó, dùng thuật toán LLL để thu được cơ sở lattice với các vector ngắn, từ đó các đa thức tương ứng có hệ số nhỏ.
+
+4. **Tách biến và giải hệ đa thức:**
+   Dùng phép tính resultant để loại bỏ một biến (thường là loại bỏ y để có đa thức đơn biến theo x, và ngược lại), sau đó giải các đa thức này để thu được nghiệm x và y.
+
+5. **Tính lại p và giải mã RSA:**
+   Tính p = a*x + y + leak_p, từ đó tính số q = n // p. Cuối cùng, tính khóa riêng d và giải mã thông điệp.
+
+Lưu ý: Mã nguồn dưới đây sử dụng SageMath, vì vậy các hàm như PolynomialRing, Matrix, LLL, resultant, … chỉ có sẵn trong môi trường Sage.
+
+---------------------------------
+Bắt đầu với mã nguồn chi tiết:
+---------------------------------
+"""
+
+from Crypto.Util.number import long_to_bytes, bytes_to_long
+from sage.all import *
+
+# ------------------ Bước 1: Khởi tạo tham số RSA và leak_p ------------------
+# Các tham số dưới đây là ví dụ (bạn thay bằng các giá trị thực tế nếu cần)
+n = 167580499956215950519401364953715382046426622073945444209826355141355616253284471005334650342162345240975585728731605368177279851073566181310579765061891014250502756284021540424912815047098023724780350364100609602779707167364816138138292881169029901637887077174119691465839709933394383980487654025215303169197
 e = 65537
-n = 95833140363150173085400781562336570561015616460313210023975270126616157131624528587272063057307225026161835408699888323499488279019129501329065630402087285258471135141986496693723213866761952112220188009361594959340470056360323997143701160632189890086147838319540477404939016199414749172031337591306156717957
-leak_p = 446726636560982512156094109972620717668814180129313191107990193476358979707694308539854517523276106719891732860421584561376386167782984646656
-c = 85585941751998800537891696785955548411294697759152457743742952506986880949373120940602110913029788782243069830692032701804087815911677859038561767938618923528464864146810669499058733566518068351509560838577248261272216817539613495749072417594986788748418531887477297026449652895516064864083462020309481181862
+c = 139141713394182175338014160210574677242324318147310823544533218285438453679685360942557889405708630849117917919844618438631772469175157267044325855150684069102771610083706768718034754862646137870042713558761139906496513003195874156227906594994060711022603795992594839895900529076885908269590003750247551274645
+leak_p = 11285951004747532118510977324365459146506394352712787708919871521893387325998280830757079994592547761237824232119473733009976060329355198332928
 
-PR = PolynomialRing(Zmod(n), names=('x', 'y'))
-x, y = PR.gens()
-pol = 2**(512- 47)* x + y + leak_p
+# ------------------ Bước 2: Thiết lập biểu diễn ẩn của số p ------------------
+# Ta biểu diễn p theo dạng:
+#    p = a * x + y + leak_p
+# Trong đó:
+#    a = 2^(512 - 47) vì 47 bit cuối của p không được tiết lộ.
+#    y < b, với b = 2^47, đại diện cho 47 bit cuối.
+a = 2**(512 - 47)   # a = 2^465
+b = 2**47           # b = 2^47
+# Biến x cần tìm (và y có giá trị nhỏ)
+# Chọn bậc của các đa thức dịch chuyển, ta chọn deg = 4 (có thể điều chỉnh nếu cần)
+deg = 4
 
-XX= 2**(512-472)
-YY= 2**47
-degree=4
-n = pol.parent().characteristic()
-f = pol.change_ring(ZZ)
-PR, (x, y) = f.parent().objgens()
-
-idx = [(k - i, i) for k in range(degree + 1) for i in range(k + 1)]
-monomials = [PR(x**t[0] * y**t[1]) for t in idx]
-
-g = [y**h * x**i * n if h == 0 else y**(h - 1) * x**i * f for h, i in idx]
-
-M = Matrix(ZZ, len(g))
-for row in range(M.nrows()):
-    for col in range(M.ncols()):
-        h, i = idx[col]
-        M[row, col] = g[row][h, i] * XX**h * YY**i
-
-B = M.LLL()
-PX, PY = PolynomialRing(ZZ, 'xs'), PolynomialRing(ZZ, 'ys')
-xs, ys = PX.gen(), PY.gen()
-
-H = {i: PR(0) for i in range(B.nrows())}
-for i in range(B.nrows()):
-    for j in range(B.ncols()):
-        H[i] += PR((monomials[j] * B[i, j]) / monomials[j](XX, YY))
-
-poly_x = gcd(H[0].resultant(H[1], y).subs(x=xs), H[0].resultant(H[2], y).subs(x=xs))
-x_root = poly_x.roots()[0][0]
-
-poly_y = gcd(H[0].resultant(H[1], x).subs(y=ys), H[0].resultant(H[2], x).subs(y=ys))
-y_root = poly_y.roots()[0][0]
-x= x_root
-y= y_root
-p = 2**(512-47) * x + y + leak_p
-q = n // p
-assert p * q == n, 'Factoring failed'
-
-d = pow(e, -1, lcm(p - 1, q - 1))
-m = pow(c, d, n)
-
-print(long_to_bytes(int(m)))
-
-
-
-
-from Crypto.Util.number import long_to_bytes
-from sage.all import Matrix, PolynomialRing, Zmod, ZZ, gcd, lcm
-
-e = 65537
-n = 95833140363150173085400781562336570561015616460313210023975270126616157131624528587272063057307225026161835408699888323499488279019129501329065630402087285258471135141986496693723213866761952112220188009361594959340470056360323997143701160632189890086147838319540477404939016199414749172031337591306156717957
-leak_p= 446726636560982512156094109972620717668814180129313191107990193476358979707694308539854517523276106719891732860421584561376386167782984646656
-c= 85585941751998800537891696785955548411294697759152457743742952506986880949373120940602110913029788782243069830692032701804087815911677859038561767938618923528464864146810669499058733566518068351509560838577248261272216817539613495749072417594986788748418531887477297026449652895516064864083462020309481181862
-
-# --- Các tham số cho phép toán đa thức và lattice ---
-# a và b dùng để biểu diễn ẩn dưới dạng: p = a * x + y + leak_p
-a = 2**(512 - 47)   # 2^(465)
-b  = 2**47           # 2^(47)
-deg = 4         # bậc tối đa dùng trong thuật toán
-
-# --- Xây dựng đa thức ban đầu ---
-# Tạo polynomial ring hai biến trên Zmod(n)
+# ------------------ Bước 3: Xây dựng đa thức ban đầu f(x, y) ------------------
+# Ta làm việc trên trường số nguyên modulo n, để đảm bảo các đa thức "ẩn" đồng nhất theo modulo n.
 Pxy = PolynomialRing(Zmod(n), names=('x', 'y'))
 x_mod, y_mod = Pxy.gens()
-
-# Đa thức ban đầu: f(x, y) = a * x + y + leak_p
+# Đa thức ban đầu: f(x, y) = a*x + y + leak_p
 Pol_mod = a * x_mod + y_mod + leak_p
-
-# Chuyển sang đa thức có hệ số nguyên
+# Chuyển hệ số về ZZ (số nguyên) để thuận tiện cho các thao tác tiếp theo
 Pol_int = Pol_mod.change_ring(ZZ)
-PR_int, (x, y) = Pol_int.parent().objgens()
+PR_int = Pol_int.parent()  # Không gian đa thức với hệ số nguyên
+x, y = PR_int.gens()       # Lấy các biến x và y
 
-# --- Xây dựng hệ chỉ số và các đơn thức ---
-# Danh sách các cặp số mũ (h, i) với tổng bậc <= deg
+# ------------------ Bước 4: Tạo các đa thức dịch chuyển ------------------
+# Ta tạo các đa thức dịch chuyển dựa trên các cặp số mũ (h, i) sao cho h + i <= deg.
+# Điều này tạo ra một hệ các đa thức với số lượng vừa đủ để áp dụng tấn công lattice.
 exponent_pairs = [(k - i, i) for k in range(deg + 1) for i in range(k + 1)]
-# Danh sách các đơn thức tương ứng: x^(h) * y^(i)
+# Tạo danh sách các đơn thức tương ứng: mỗi đơn thức có dạng x^(h)*y^(i)
 monomials = [PR_int(x**h * y**i) for (h, i) in exponent_pairs]
 
-# f_poly là đa thức chuyển sang hệ số nguyên
+# f_poly là đa thức gốc f(x, y)
 f_poly = Pol_int
 
-# --- Xây dựng các đa thức dịch chuyển (shifted polynomials) ---
-# Theo công thức:
-#   Nếu h == 0: g(x,y) = n * x^i
-#   Nếu h > 0:  g(x,y) = f_poly * x^i * y^(h-1)
+# Tạo danh sách các đa thức dịch chuyển g_list theo quy tắc:
+#   - Nếu h == 0: g(x,y) = n * x^i
+#   - Nếu h > 0:  g(x,y) = f(x,y) * x^i * y^(h - 1)
 g_list = []
 for (h, i) in exponent_pairs:
     if h == 0:
+        # Khi h == 0, ta nhân với n để đảm bảo đa thức chia hết cho n.
         g_poly = n * (x**i)
     else:
+        # Khi h > 0, nhân f(x,y) với x^i * y^(h-1)
         g_poly = f_poly * (x**i * y**(h - 1))
     g_list.append(g_poly)
 
-# --- Xây dựng ma trận lattice ---
-# Các hệ số được “nâng” lên bằng scale_x và scale_y
-scale_x = 2**(512 - 472)  # 2^(40)
-scale_y = b           # 2^(47)
-m_size = len(g_list)
+# ------------------ Bước 5: Xây dựng lattice từ các đa thức dịch chuyển ------------------
+# Mục tiêu: "Nâng" các hệ số của các đa thức sao cho chúng có độ lớn tương đương, từ đó
+# ta đưa chúng vào một ma trận lattice. Sau đó, áp dụng LLL để thu được vector có hệ số nhỏ.
+#
+# Chọn các hằng số scale:
+#    scale_x: dùng để nâng các hệ số của các đơn thức theo biến x.
+#             Ở đây, scale_x = 2^(512 - 472) = 2^40 (vì 40 bit đầu của p không được tiết lộ).
+#    scale_y: dùng cho biến y, ta để scale_y = b = 2^47.
+scale_x = 2**(512 - 472)  # scale_x = 2^40
+scale_y = b             # scale_y = 2^47
 
+# Số lượng đa thức dịch chuyển (số hàng của lattice)
+m_size = len(g_list)
+# Khởi tạo ma trận lattice M kích thước m_size x m_size với hệ số nguyên.
 M = Matrix(ZZ, m_size, m_size)
 for row in range(m_size):
     for col in range(m_size):
-        # Với cặp (h, i) ứng với cột col, lấy hệ số của x^h*y^i trong g_list[row]
+        # Với cặp số mũ (h, i) ứng với cột col,
+        # lấy hệ số của đơn thức x^h * y^i trong đa thức g_list[row].
         (h, i) = exponent_pairs[col]
         coeff = g_list[row][h, i]
+        # "Nâng" hệ số theo scale_x^h và scale_y^i để cân bằng các đơn thức khi đưa vào lattice.
         M[row, col] = coeff * (scale_x ** h) * (scale_y ** i)
 
-# --- Giảm LLL cho lattice ---
+# ------------------ Bước 6: Áp dụng thuật toán LLL ------------------
+# LLL (Lenstra–Lenstra–Lovász) sẽ tìm được một cơ sở lattice với các vector có độ dài ngắn.
+# Những vector này tương ứng với các đa thức có hệ số "nhỏ", giúp chúng ta dễ dàng truy xuất nghiệm.
 B = M.LLL()
 
-# --- Tái tạo các đa thức “ẩn” từ cơ sở LLL ---
-H = {}  # H[i] sẽ lưu đa thức tương ứng với hàng thứ i của B
+# ------------------ Bước 7: Tái tạo các đa thức ẩn từ cơ sở lattice ------------------
+# Mỗi hàng của ma trận B sau LLL được dùng để tái tạo lại một đa thức ẩn H[i] với hệ số nguyên.
+# Ta cần "điều chỉnh" các hệ số bằng cách chia lại theo giá trị của đơn thức tại (scale_x, scale_y).
+H = {}  # H[i] chứa đa thức tương ứng với hàng thứ i của cơ sở lattice B.
 for i in range(B.nrows()):
-    poly_H = PR_int(0)
+    poly_H = PR_int(0)  # Khởi tạo đa thức không.
     for j in range(B.ncols()):
-        # Cân bằng đơn thức bằng cách chia cho giá trị tại (scale_x, scale_y)
+        # monomials[j] là đơn thức ban đầu ứng với cột j.
+        # B[i, j] là hệ số sau LLL.
+        # Chia cho giá trị của monomials[j] tại (scale_x, scale_y) để cân bằng đơn thức.
         poly_H += PR_int((monomials[j] * B[i, j]) / monomials[j](scale_x, scale_y))
     H[i] = poly_H
 
-# --- Tách biến: tính resultant để loại bỏ biến còn lại ---
-# Tạo 2 polynomial ring univariate mới (cho x và cho y)
+# ------------------ Bước 8: Tách biến và giải hệ đa thức ------------------
+# Sử dụng phép tính resultant để loại bỏ một biến khỏi hệ đa thức, từ đó thu được đa thức đơn biến.
+#
+# Tạo các polynomial ring đơn biến cho x và y:
 PX = PolynomialRing(ZZ, 'xs')
 xs = PX.gen()
 PY = PolynomialRing(ZZ, 'ys')
 ys = PY.gen()
 
-# Tìm đa thức theo x bằng cách loại y:
+# --- Loại bỏ biến y để có đa thức theo x ---
+# Tính resultant của H[0] và H[1] theo biến y.
 res_x1 = H[0].resultant(H[1], y).subs(x=xs)
+# Tính thêm resultant của H[0] và H[2] theo biến y.
 res_x2 = H[0].resultant(H[2], y).subs(x=xs)
+# Lấy ước chung lớn nhất (gcd) của hai đa thức trên, giúp loại bỏ nhiễu từ các nghiệm không cần thiết.
 poly_x = gcd(res_x1, res_x2)
-# Lấy nghiệm đầu tiên
+# Lấy nghiệm đầu tiên của poly_x (trong trường hợp có nhiều nghiệm, bạn có thể kiểm tra lại)
 x_root = poly_x.roots()[0][0]
-# Ép x_root về kiểu số nguyên Python (nếu cần)
+# Ép về kiểu số nguyên Python (nếu cần)
 try:
     x_root = int(x_root.lift())
 except AttributeError:
     x_root = int(x_root)
 
-# Tương tự, tìm đa thức theo y bằng cách loại x:
+# --- Loại bỏ biến x để có đa thức theo y ---
 res_y1 = H[0].resultant(H[1], x).subs(y=ys)
 res_y2 = H[0].resultant(H[2], x).subs(y=ys)
 poly_y = gcd(res_y1, res_y2)
 y_root = poly_y.roots()[0][0]
-# Ép y_root về kiểu số nguyên Python
+# Ép về kiểu số nguyên Python
 try:
     y_root = int(y_root.lift())
 except AttributeError:
     y_root = int(y_root)
 
-# --- Tái tạo ước số p của RSA ---
+# ------------------ Bước 9: Tính lại số p và tách số q ------------------
+# Từ nghiệm x_root và y_root, tính lại số p theo công thức:
+#    p = a*x + y + leak_p.
 recovered_p = a * x_root + y_root + leak_p
+# Số q được tính bằng: q = n // p.
 recovered_q = n // recovered_p
 
-# --- Tính khóa riêng và giải mã ---
+# ------------------ Bước 10: Tính khóa riêng và giải mã thông điệp RSA ------------------
+# Khóa riêng d được tính là số nghịch đảo của e modulo lcm(p-1, q-1).
 d = pow(e, -1, lcm(recovered_p - 1, recovered_q - 1))
-m = pow(c, d, n)
-
-# Ép m về kiểu số nguyên Python (nếu cần)
-try:
-    m = int(m.lift())
-except AttributeError:
-    m = int(m)
-
-print(long_to_bytes(m))
+# Giải mã thông điệp: tính m = c^d mod n.
+m_int = pow(c, d, n)
+print(long_to_bytes(int(m_int)))

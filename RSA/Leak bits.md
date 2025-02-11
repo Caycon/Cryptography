@@ -267,6 +267,9 @@ print(f'{leak_p= }')
 ```
 
 ##### Solution
+- Ý tưởng của t sẽ là xây dựng một đa thức 2 ẩn $x; y$ để biểu diễn cho $p$ và từ đó tìm $p$ thông qua $x; y$.
+- Ở đây ta có: $$f(x; y)= p= a * x + y + leak_p$$
+
 ```python
 from Crypto.Util.number import *
 
