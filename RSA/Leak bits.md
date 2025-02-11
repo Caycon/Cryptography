@@ -269,6 +269,8 @@ print(f'{leak_p= }')
 ##### Solution
 - Ý tưởng của t sẽ là xây dựng một đa thức 2 ẩn $x; y$ để biểu diễn cho $p$ và từ đó tìm $p$ thông qua $x; y$.
 - Ở đây ta có: $$f(x; y)= p= a * x + y + leak_p$$
+- Tiếp theo ta sẽ tạo đa thức dịch chuyển hay shifted polynomials.
+- Mục tiêu chính là xây dựng một tập hợp các đa thức có cùng nghiệm nhỏ (x, y) mà ta cần tìm, từ đó “cắt xén” (eliminate) nhiễu và thu được đa thức có hệ số nhỏ dễ xử lý hơn. Nói cách khác, ta muốn tạo ra nhiều đa thức liên quan đến ẩn số (x, y) sao cho khi thay nghiệm chính xác vào, chúng có giá trị “nhỏ” (hoặc thậm chí bằng 0 modulo một số nào đó). Điều này là tiền đề để sau đó dùng các kỹ thuật lattice, qua bước giảm LLL, tìm ra được mối quan hệ “mịn” giữa các ẩn số.
 
 ```python
 from Crypto.Util.number import *
