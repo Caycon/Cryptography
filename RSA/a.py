@@ -199,7 +199,7 @@ flag= b'I_don_t_known_what_to_write_here'
 m= bytes_to_long(flag)
 phi= (p- 1)*(q- 1)
 d= pow(e, -1, phi)
-leak_d= int(bin(d)[400:], 2)
+leak_d= int(bin(d)[500:], 2)
 c= pow(m,e,n)
 print(f'{n= }')
 print(f'{e= }')
@@ -207,3 +207,99 @@ print(f'{c= }')
 print(f'{leak_d= }')
 print(f'{d= }')
 
+
+#!/usr/bin/env python3
+import math
+from Crypto.Util.number import long_to_bytes
+
+# --- Input parameters (obtained from the challenge) ---
+# For example, the challenge prints these values:
+# n = <big integer>
+# e = 65537
+# c = <big integer>
+# leak_d = <big integer> (this is bin(d)[400:] interpreted as an integer)
+#
+# In an actual challenge these would be provided; here we assume they are read from a file or input.
+#
+# For demonstration, let’s assume we have the following variables:
+# (Replace the ... with the actual numbers.)
+n = ...      # the RSA modulus
+e = 65537    # public exponent
+c = ...      # RSA ciphertext
+leak_d = ... # the leaked part of d (the low bits after the 400th bit)
+
+# --- Setup ---
+# We know that d is about as large as n (which is 1024 bits, since p,q are 512 bits)
+# and the leak is produced by: leak_d = int(bin(d)[400:], 2)
+# So if we let D = d.bit_length(), then the number of missing (unknown) bits is R = D - 400.
+# Typically D ≈ n.bit_length() (≈ 1024), so we take:
+D = len(bin(n)) - 2  # number of bits in n
+R = D - 500  # so here R is roughly 624
+
+# We also know that:
+#    d = X * 2^R + leak_d,
+# where X is the unknown 400-bit number.
+
+# Our RSA equation is: e*d - k*phi(n) = 1.
+# Note that for RSA, phi(n) = (p-1)(q-1) and k is a small positive integer.
+# In fact, since d is “full‐size”, one typically has d ~ n so that k ≈ e.
+#
+# We now try candidates for k in a small interval around e.
+
+delta = 65537  # search window around e (tweak if needed)
+found = False
+candidate_d = None
+
+for k in range(e - delta, e + delta):
+    if k <= 0:
+        continue
+    # The RSA relation gives: e*d ≡ 1 (mod k) so we expect d ≈ k*n/e.
+    d_approx = (k * n) // e
+    # Write d = X*2^R + leak_d, so an approximate X is:
+    x_approx = (d_approx - leak_d) >> R  # equivalent to floor((d_approx - leak_d)/2^R)
+    
+    # Try a few offsets around x_approx
+    for offset in range(-5, 6):
+        X = x_approx + offset
+        if X < 0:
+            continue
+        d_candidate = X * (1 << R) + leak_d
+        # Check that the RSA relation holds: e*d_candidate - 1 must be divisible by k.
+        if (e * d_candidate - 1) % k != 0:
+            continue
+        phi_candidate = (e * d_candidate - 1) // k
+        
+        # Recover p+q from phi(n) = n - (p+q) + 1  =>  p+q = n - phi_candidate + 1
+        s = n - phi_candidate + 1
+        # For correct p,q, the discriminant Δ = (p+q)^2 - 4n must be a perfect square.
+        disc = s * s - 4 * n
+        if disc < 0:
+            continue
+        sqrt_disc = math.isqrt(disc)
+        if sqrt_disc * sqrt_disc != disc:
+            continue
+
+        # Now compute p and q.
+        p = (s + sqrt_disc) // 2
+        q = (s - sqrt_disc) // 2
+        if p * q == n:
+            print("[+] Factors found!")
+            print("p =", p)
+            print("q =", q)
+            found = True
+            break
+    if found:
+        break
+
+if not found:
+    print("[-] Failed to recover the key!")
+    exit(1)
+
+# We now have candidate d = d_candidate.
+print("[+] Recovered d.")
+
+# Decrypt the ciphertext:
+m = pow(c, d_candidate, n)
+flag = long_to_bytes(int(m))
+print("[+] Decrypted message:")
+print(flag.decode())

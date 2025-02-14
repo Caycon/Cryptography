@@ -235,6 +235,103 @@ print(long_to_bytes(m))
 
 ![image](https://github.com/user-attachments/assets/9d193ae1-53bf-4062-9b00-7fae4b777768)
 - Ta sẽ xây dựng $f(x)$ có dạng $f(x)= 2^l*x+ leak$ với $l$ là số bits cần tìm.
+- Ở đây mình sẽ **demo** lsb với `leak_d`.
+
+##### Chall
+```python
+from Crypto.Util.number import *
+
+p= getPrime(512)
+q= getPrime(512)
+n= p*q
+e= 65537
+flag= b'I_don_t_known_what_to_write_here'
+m= bytes_to_long(flag)
+phi= (p- 1)*(q- 1)
+d= pow(e, -1, phi)
+leak_d= int(bin(d)[500:], 2)
+c= pow(m,e,n)
+print(f'{n= }')
+print(f'{e= }')
+print(f'{c= }')
+print(f'{leak_d= }')
+
+# n= 92632196527519941289819350921056829444480517010265589957373778873700077999955727574845706207026646182464034351127633386337820727903030036940541823654138006668699194468568991659311510407657330799284138619308687017650347813053278313969556107745488764630509019514210739901312047621908667595656257612889224859869
+# e= 65537
+# c= 48046750041670335285068610235156253269884365678622418225768512605784894827053819086725640701415448606737196290908073774411377744841747389430504021560561291770507430714623168935334852338156759536737332034393066927373059032428769776355834331235798865293970127768809191936837184639844809659781883469696230478716
+# leak_d= 68718016546295563418182894064324632202272387383594063947969268641966166712179179231739309696177871563473945009041717936543752257965771216357096765501676816449
+```
+##### Solution
+```python
+from Crypto.Util.number import *
+
+n= 92632196527519941289819350921056829444480517010265589957373778873700077999955727574845706207026646182464034351127633386337820727903030036940541823654138006668699194468568991659311510407657330799284138619308687017650347813053278313969556107745488764630509019514210739901312047621908667595656257612889224859869
+e= 65537
+c= 48046750041670335285068610235156253269884365678622418225768512605784894827053819086725640701415448606737196290908073774411377744841747389430504021560561291770507430714623168935334852338156759536737332034393066927373059032428769776355834331235798865293970127768809191936837184639844809659781883469696230478716
+leak_d= 68718016546295563418182894064324632202272387383594063947969268641966166712179179231739309696177871563473945009041717936543752257965771216357096765501676816449
+
+D = len(bin(n)) - 2  # number of bits in n
+R = D - 500  # so here R is roughly 724 (maybe)
+
+# We also know that:
+#    d = X * 2^R + leak_d,
+# where X is the unknown 400-bit number.
+
+# Our RSA equation is: e*d - k*phi(n) = 1.
+# Note that for RSA, phi(n) = (p-1)(q-1) and k is a small positive integer.
+# In fact, since d is “full‐size”, one typically has d ~ n so that k ≈ e.
+#
+# We now try candidates for k in a small interval around e.
+
+delta = 65537
+found = False
+candidate_d = None
+
+for k in range(e - delta, e + delta):
+    if k <= 0:
+        continue
+    # The RSA relation gives: e*d ≡ 1 (mod k) so we expect d ≈ k*n/e.
+    d_approx = (k * n) // e
+    # Write d = X*2^R + leak_d, so an approximate X is:
+    x_approx = (d_approx - leak_d) >> R  # equivalent to floor((d_approx - leak_d)/2^R)
+    
+    # Try a few offsets around x_approx
+    for offset in range(-5, 6):
+        X = x_approx + offset
+        if X < 0:
+            continue
+        d_candidate = X * (1 << R) + leak_d
+        # Check that the RSA relation holds: e*d_candidate - 1 must be divisible by k.
+        if (e * d_candidate - 1) % k != 0:
+            continue
+        phi_candidate = (e * d_candidate - 1) // k
+        
+        # Recover p+q from phi(n) = n - (p+q) + 1  =>  p+q = n - phi_candidate + 1
+        s = n - phi_candidate + 1
+        # For correct p,q, the discriminant Δ = (p+q)^2 - 4n must be a perfect square.
+        disc = s * s - 4 * n
+        if disc < 0:
+            continue
+        sqrt_disc = math.isqrt(disc)
+        if sqrt_disc * sqrt_disc != disc:
+            continue
+        p = (s + sqrt_disc) // 2
+        q = (s - sqrt_disc) // 2
+        if p * q == n:
+            print(f'{p= }')
+            print(f'{q= }')
+            found = True
+            break
+    if found:
+        break
+
+if not found:
+    print("[-] Failed to recover the key!")
+    exit(1)
+
+m = pow(c, d_candidate, n)
+print(long_to_bytes(int(m)))
+```
 
 #### Leak bits in mid
 ![image](https://github.com/user-attachments/assets/61c2a3b9-dbb7-4419-aaab-8edfd2795ab4)
