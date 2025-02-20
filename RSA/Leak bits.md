@@ -464,5 +464,3 @@ d = pow(e, -1, phi)
 m = pow(c, d, n)
 print(long_to_bytes(int(m)))
 ```
-
-#### Leak bits in multiple chunks of bits of p
