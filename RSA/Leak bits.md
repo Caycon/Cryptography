@@ -79,6 +79,14 @@ for i in range (10, 17):
         print(long_to_bytes(int(flag[0])))
     except: continue
 ```
+- Tuy nhiên thì mng có thắc là tại sao $e$ lại nhỏ vậy ko? Nếu $e$ lớn hơn thì có làm như trên được nữa hay không? Giới hạn của $e$ sẽ là bao nhiêu?
+    - Theo như chall trên ta dựng được đa thức $f(x)= (m_0+ x)^e- c \equiv (n)$
+    - Với CopperSmith ta sẽ tìm được nghiệm $x$: $$|x| < n^{\frac{1}{e}}$$
+    - Giả sử $n$ có 1024 bits. Khi đó ta có $n \approx 2^{1024}$ và `L= len(long_to_bytes(x))` khi đó ta có max leng bit của $x$ là $8L$:
+    $$8L< \frac{1024}{e} <=> e< \frac{1024}{8L}= \frac{128}{L}$$
+    - Như vậy ta tính được e max của chall trên:
+        - $len(flag)_{min}= 10$ :$$e< \frac{128}{10} \approx 12.8$$
+        - Tức $e_{max}= 12$
 - Ở đây ta xây dựng $f(x)= (m+ x)^e- c$ được luôn là do sau $flag$ không có bytes nào. Nếu sau $flag$ có bytes thì $f(x)$ sẽ được xây dựng khác.
 - Giả dụ như $m$ có dạng sau:
 ```python
